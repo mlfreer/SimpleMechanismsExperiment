@@ -38,7 +38,7 @@ class Subsession(BaseSubsession):
 		for g in self.get_groups():
 			g.set_random_price()
 
-		print('setting the value')
+		#print('setting the value')
 		# setting the values and the roles
 		for p in self.get_players():
 			#p.role()
@@ -76,7 +76,7 @@ class Player(BasePlayer):
 	# setting the values
 	def set_value(self):
 		self.value = random.uniform(Constants.min_support,Constants.max_support)
-		print('value set')
+		#print('value set')
 
 
 
