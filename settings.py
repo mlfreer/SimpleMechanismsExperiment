@@ -16,6 +16,12 @@ SESSION_CONFIGS = [
     #    num_demo_participants=3,
     #    app_sequence=['public_goods', 'payment_info']
     # ),
+    {
+         'name': 'DoBilateralTrade_BS',
+         'display_name': 'Dominant Strategy Bilateral Trade',
+         'num_demo_participants': 2,
+         'app_sequence': ['DoBilateralTrade_BS'],
+     },
 ]
 
 
