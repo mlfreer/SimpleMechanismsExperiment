@@ -34,6 +34,12 @@ SESSION_CONFIGS = [
          'num_demo_participants': 2,
          'app_sequence': ['NSS_BilateralTrade'],
      },
+     {
+         'name': 'DS_Dictator',
+         'display_name': 'Dominant Strategy Dictator Treatment',
+         'num_demo_participants': 3,
+         'app_sequence': ['DS_Dictator'],
+     },
 ]
 
 
