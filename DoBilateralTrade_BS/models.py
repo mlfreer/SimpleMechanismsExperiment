@@ -60,6 +60,9 @@ class Group(BaseGroup):
 		if p_buyer.personal_price >= self.random_price and p_seller.personal_price <= self.random_price:
 			p_buyer.profit = p_buyer.value - self.random_price
 			p_seller.profit = self.random_price - p_seller.value
+		else:
+			p_buyer.profit = 0
+			p_seller.profit = 0
 
 
 class Player(BasePlayer):
