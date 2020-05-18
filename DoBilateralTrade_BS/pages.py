@@ -3,16 +3,28 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
-class MyPage(Page):
-    pass
+class WelcomePage(Page):
+	template_name ='DoBilateralTrade_BS/WelcomePage.html'
+	def is_displayed(self):
+		return self.player.subsession.round_number == 1
+
+class PriceInputPage(Page):
+	template_name ='DoBilateralTrade_BS/PriceInputPage'
+	# always displayed
+	def is_displayed(self):
+		return True
+
+	form_models = models.Player
+	form_fields = ['personal_price']
 
 
 class ResultsWaitPage(WaitPage):
-    pass
+    def after_all_players_arrive(self):
+    	self.player.group.set_payoffs()
 
 
 class Results(Page):
-    pass
+    template_name ='DoBilateralTrade_BS/Results'
 
 
-page_sequence = [MyPage, ResultsWaitPage, Results]
+page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results]
