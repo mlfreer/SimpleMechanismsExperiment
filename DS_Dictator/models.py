@@ -78,9 +78,7 @@ class Player(BasePlayer):
 	# alternative to be chosen:
 	chosen_alternative = models.CharField(choices = ['A','B'])
 	# dictator to be chosen:
-	chosen_dictator = models.IntegerField(widget = widgets.RadioSelect, 
-		choices = self.group.get_others_in_group())
-
+	chosen_dictator = models.IntegerField(1,3)
 
 
 
