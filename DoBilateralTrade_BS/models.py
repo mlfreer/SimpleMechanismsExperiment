@@ -32,7 +32,7 @@ class Subsession(BaseSubsession):
 
 	def creating_session(self):
 		# groupping people with the fixed roles (recall role is )
-		#self.group_randomly(fixed_id_in_group=True)
+		self.group_randomly(fixed_id_in_group=True)
 
 		# setting the random prices:
 		for g in self.get_groups():
