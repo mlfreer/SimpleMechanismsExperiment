@@ -46,7 +46,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
 	preference_profile = models.CharField(choices = ['AB','BA'])
-
+ 
 	def role(self):
 		if self.id_in_group == 1:
 			return 1
@@ -74,6 +74,14 @@ class Player(BasePlayer):
 				preference_profile = 'AB'
 			else:
 				preference_profile = 'BA'
+
+	# alternative to be chosen:
+	chosen_alternative = models.CharField(choices = ['A','B'])
+	# dictator to be chosen:
+	chosen_dictator = models.IntegerField(widget = widgets.RadioSelect, 
+		choices = self.group.get_others_in_group())
+
+
 
 
 
