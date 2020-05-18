@@ -27,7 +27,6 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-    template_name ='DoBilateralTrade_BS/Results.html'
-
+    template_name ='DoBilateralTrade_BS/Results.html' 
 
 page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results]

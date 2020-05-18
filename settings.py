@@ -28,6 +28,12 @@ SESSION_CONFIGS = [
          'num_demo_participants': 2,
          'app_sequence': ['SS_BilateralTrade'],
      },
+     {
+         'name': 'NSS_BilateralTrade',
+         'display_name': 'Non-Strategically Simple Bilateral Trade',
+         'num_demo_participants': 2,
+         'app_sequence': ['NSS_BilateralTrade'],
+     },
 ]
 
 

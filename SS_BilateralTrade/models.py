@@ -15,12 +15,12 @@ import decimal
 author = 'Mikhail Freer'
 
 doc = """
-The treatment contains the Dominant Strategy Bilateral Trade Treatment
+The treatment contains the Strategically Simple Bilateral Trade Treatment
 """
 
 
 class Constants(BaseConstants):
-	name_in_url = 'SimpleStrategyBilateralTrade'
+	name_in_url = 'StrategicallySimpleBilateralTrade'
 	players_per_group = 2
 	num_rounds = 1
 	# creating bounds for the support of the distribution of value:

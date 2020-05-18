@@ -1,0 +1,36 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Please set up your price
+{% endblock %}
+
+
+
+{% block content %}
+	{{form.errors}}
+
+	<font size="4">
+	<table class="table">
+	<tr>
+		<td> Your role is </td>
+		<td>  <b>{{ player.role }}</b> </td>
+	</tr>
+	<tr>
+		<td> Your value </td>
+		<td> <b>{{ player.value }}</b> </td>
+	</tr>
+	<tr>
+		<td> Please set up the price </td>
+		<td> {% formfield form.personal_price with label="" %} </td>
+	</tr>
+	<tr>
+		<td> </td>
+		<td>{% next_button %} </td>
+	</tr>
+	</table>
+	</font>
+
+    {% next_button %}
+
+{% endblock %}
