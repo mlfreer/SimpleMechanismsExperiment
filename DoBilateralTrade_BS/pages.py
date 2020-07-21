@@ -17,7 +17,7 @@ class PriceInputPage(Page):
 		return True
 
 	form_model = 'player'
-	form_fields = ['personal_price']
+	form_fields = ['personal_price','fob_0','fob_20','fob_40','fob_60','fob_80','sob_0','sob_20','sob_40','sob_60','sob_80']
 
 
 class ResultsWaitPage(WaitPage):

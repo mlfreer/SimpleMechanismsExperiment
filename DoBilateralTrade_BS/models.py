@@ -91,6 +91,24 @@ class Player(BasePlayer):
 	# profit variable
 	profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
 
+	#defining the belief related variables
+	#fob = first order belief
+	#sob = second order belief
+	#belief comes with 5 vars corresponding to its own quantile
+
+	# first order beliefs, defined witthe the lower bound of the interval.
+	fob_0 = models.IntegerField(initial=0)
+	fob_20 = models.IntegerField(initial=0)
+	fob_40 = models.IntegerField(initial=0)
+	fob_60 = models.IntegerField(initial=0)
+	fob_80 = models.IntegerField(initial=0)
+
+	# second order beliefs, defined witthe the lower bound of the interval.
+	sob_0 = models.IntegerField(initial=0)
+	sob_20 = models.IntegerField(initial=0)
+	sob_40 = models.IntegerField(initial=0)
+	sob_60 = models.IntegerField(initial=0)
+	sob_80 = models.IntegerField(initial=0)
 
 
 
