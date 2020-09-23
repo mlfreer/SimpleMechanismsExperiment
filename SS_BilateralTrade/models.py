@@ -22,7 +22,7 @@ The treatment contains the Strategically Simple Bilateral Trade Treatment
 class Constants(BaseConstants):
 	name_in_url = 'StrategicallySimpleBilateralTrade'
 	players_per_group = 2
-	num_rounds = 1
+	num_rounds = 2
 	# creating bounds for the support of the distribution of value:
 	min_support = 0
 	max_support = 100
@@ -88,6 +88,21 @@ class Player(BasePlayer):
 
 	# profit variable
 	profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+
+
+	# first order beliefs, defined witthe the lower bound of the interval.
+	fob_0 = models.IntegerField(initial=0)
+	fob_20 = models.IntegerField(initial=0)
+	fob_40 = models.IntegerField(initial=0)
+	fob_60 = models.IntegerField(initial=0)
+	fob_80 = models.IntegerField(initial=0)
+
+	# second order beliefs, defined witthe the lower bound of the interval.
+	sob_0 = models.IntegerField(initial=0)
+	sob_20 = models.IntegerField(initial=0)
+	sob_40 = models.IntegerField(initial=0)
+	sob_60 = models.IntegerField(initial=0)
+	sob_80 = models.IntegerField(initial=0)
 
 
 
