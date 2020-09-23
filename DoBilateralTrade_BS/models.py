@@ -22,7 +22,7 @@ The treatment contains the Dominant Strategy Bilateral Trade Treatment
 class Constants(BaseConstants):
 	name_in_url = 'DominantStrategyBilateralTrade'
 	players_per_group = 2
-	num_rounds = 1
+	num_rounds = 2
 	# creating bounds for the support of the distribution of value:
 	min_support = 0
 	max_support = 100
