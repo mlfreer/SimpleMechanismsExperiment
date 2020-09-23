@@ -30,4 +30,14 @@ class Results(Page):
     template_name ='NSS_BilateralTrade/Results.html'
 
 
-page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results]
+
+class BeliefsInputPage(Page):
+	template_name ='NSS_BilateralTrade/BeliefsInputPage.html'
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+	form_model = 'player'
+	form_fields = ['fob_0','fob_20','fob_40','fob_60','fob_80','sob_0','sob_20','sob_40','sob_60','sob_80']
+
+
+page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results, BeliefsInputPage]
