@@ -44,10 +44,16 @@ class Subsession(BaseSubsession):
 			#p.role()
 			p.set_value()
 
+	# determining payoff of players
+	paying_round = models.IntegerField()
+	
+
+
 
 class Group(BaseGroup):
 	# in DS Bilateral Trade the price is determined as random:
 	final_price = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+	paying_round = models.IntegerField()
 	# method to support the random price:
 	def set_random_price(self):
 		# instead of using random.randrange that is for integers only, we use rand.uniform to have the float
@@ -63,6 +69,12 @@ class Group(BaseGroup):
 		else:
 			p_buyer.profit = 0
 			p_seller.profit = 0
+
+	def set_final_payoff(self):
+		self.subsession.paying_round=random.randint(1,Constants.num_rounds)
+		for p in self.get_players():
+			p.final_treatment_profit = p.in_round(self.subsession.paying_round).profit
+
 
 
 class Player(BasePlayer):
@@ -81,15 +93,15 @@ class Player(BasePlayer):
 		self.value = random.uniform(Constants.min_support,Constants.max_support)
 		#print('value set')
 
-
-
-
 	# variables for the prices:
 	personal_price = models.DecimalField(max_digits=5, decimal_places=1, default=0)
 	#buyer_price  = models.DecimalField(max_digits=5, decimal_places=1, default=0)
 
 	# profit variable
 	profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+	final_treatment_profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+
+
 
 	#defining the belief related variables
 	#fob = first order belief
@@ -103,6 +115,9 @@ class Player(BasePlayer):
 	fob_60 = models.IntegerField(initial=0)
 	fob_80 = models.IntegerField(initial=0)
 
+	fob_profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+
+
 	# second order beliefs, defined witthe the lower bound of the interval.
 	sob_0 = models.IntegerField(initial=0)
 	sob_20 = models.IntegerField(initial=0)
@@ -110,8 +125,14 @@ class Player(BasePlayer):
 	sob_60 = models.IntegerField(initial=0)
 	sob_80 = models.IntegerField(initial=0)
 
+	sob_profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+
+
+
 	# variable for the risk-aversion decision task
 	risk_choice = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+
+	risk_profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
 
 	#email input varaible:
 	email = models.StringField()

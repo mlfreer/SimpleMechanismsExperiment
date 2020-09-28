@@ -30,6 +30,13 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
 	template_name ='DoBilateralTrade_BS/Results.html' 
 
+
+class EarningsWaitPage(WaitPage):
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds 
+
+	after_all_players_arrive = 'set_final_payoff'
+
 class FOBInstructions(Page):
 	template_name ='DoBilateralTrade_BS/FOBInstructions.html'
 	def is_displayed(self):
@@ -83,7 +90,7 @@ class FinalPage(Page):
 	form_model = 'player'
 	form_fields = ['email']
 
-page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results, FOBInstructions, FOBInputPage, SOBInstructions, SOBInputPage, RiskInstructions, RiskInputPage, FinalPage]
+page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results, EarningsWaitPage, FOBInstructions, FOBInputPage, SOBInstructions, SOBInputPage, RiskInstructions, RiskInputPage, FinalPage]
 
 
 
