@@ -23,21 +23,68 @@ class PriceInputPage(Page):
 
 class ResultsWaitPage(WaitPage):
 	after_all_players_arrive = 'set_payoffs'
-    #def after_all_players_arrive(self):
-    #	self.player.group.set_payoffs()
+	#def after_all_players_arrive(self):
+	#	self.player.group.set_payoffs()
 
 
 class Results(Page):
-    template_name ='DoBilateralTrade_BS/Results.html' 
+	template_name ='DoBilateralTrade_BS/Results.html' 
+
+class FOBInstructions(Page):
+	template_name ='DoBilateralTrade_BS/FOBInstructions.html'
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds 
 
 
-class BeliefsInputPage(Page):
-	template_name ='DoBilateralTrade_BS/BeliefsInputPage.html'
+class FOBInputPage(Page):
+	template_name ='DoBilateralTrade_BS/FOBInputPage.html'
 	def is_displayed(self):
 		return self.player.subsession.round_number == Constants.num_rounds
 
 	form_model = 'player'
-	form_fields = ['fob_0','fob_20','fob_40','fob_60','fob_80','sob_0','sob_20','sob_40','sob_60','sob_80']
+	form_fields = ['fob_0','fob_20','fob_40','fob_60','fob_80']
 
 
-page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results, BeliefsInputPage]
+class SOBInstructions(Page):
+	template_name ='DoBilateralTrade_BS/SOBInstructions.html'
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds 
+
+
+class SOBInputPage(Page):
+	template_name ='DoBilateralTrade_BS/SOBInputPage.html'
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+	form_model = 'player'
+	form_fields = ['sob_0','sob_20','sob_40','sob_60','sob_80']
+
+
+
+class RiskInstructions(Page):
+	template_name ='DoBilateralTrade_BS/RiskInstructions.html' 
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+
+class RiskInputPage(Page):
+	template_name ='DoBilateralTrade_BS/RiskInputPage.html'
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+	form_model = 'player'
+	form_fields = ['risk_choice']
+
+class FinalPage(Page):
+	template_name ='DoBilateralTrade_BS/FinalPage.html'
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+	form_model = 'player'
+	form_fields = ['email']
+
+page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results, FOBInstructions, FOBInputPage, SOBInstructions, SOBInputPage, RiskInstructions, RiskInputPage, FinalPage]
+
+
+
+

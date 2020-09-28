@@ -110,6 +110,12 @@ class Player(BasePlayer):
 	sob_60 = models.IntegerField(initial=0)
 	sob_80 = models.IntegerField(initial=0)
 
+	# variable for the risk-aversion decision task
+	risk_choice = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+
+	#email input varaible:
+	email = models.StringField()
+
 
 
 
