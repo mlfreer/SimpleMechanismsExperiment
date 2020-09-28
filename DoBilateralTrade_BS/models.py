@@ -21,19 +21,28 @@ The treatment contains the Dominant Strategy Bilateral Trade Treatment
 
 class Constants(BaseConstants):
 	name_in_url = 'DominantStrategyBilateralTrade'
-	players_per_group = 2
-	num_rounds = 2
-	# creating bounds for the support of the distribution of value:
-	min_support = 0
-	max_support = 100
+	show_up_fee = 5	
 
 	#constants for Risk aversion task:
 	risk_return = 3
 	risk_endowment = 2
 	risk_exchange_rate = 1
 
-	# main treatment exchange rate:
+
+	#constants for Beliefs:
+	bliefs_revenue = 2.5
+
+	# constants for Trade:
 	trade_exchange_rate = .1
+
+	min_support = 0
+	max_support = 100
+
+	players_per_group = 2
+	num_rounds = 2	
+
+
+
 
 
 class Subsession(BaseSubsession):
@@ -98,7 +107,7 @@ class Player(BasePlayer):
 	value = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 	#buyer_value  = models.DecimalField(max_digits=5, decimal_places=1, default=0)
 	# setting the values
-	def set_value(self):
+	def set_value(self):	
 		self.value = round(random.uniform(Constants.min_support,Constants.max_support),0)
 		#print('value set')
 
@@ -108,8 +117,10 @@ class Player(BasePlayer):
 
 	# profit variable
 	profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
+
 	final_treatment_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
+	final_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 
 	#defining the belief related variables
@@ -136,9 +147,103 @@ class Player(BasePlayer):
 
 	sob_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
+	# total profit form the beliefs treatment
+	beliefs_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+	# functions defining the payoff
+	def set_belief_payoff(self):
+		# defining the random number for both treatments
+		fob_r = random.uniform(0,1)
+		sob_r = random.uniform(0,1)
+
+		# randomly selecting the interval (1..5)
+		fob_rint = random.randint(1,5)
+		sob_rint = random.randint(1,5)
+
+		# determining number of groups:
+		num_of_groups = self.session.num_participants/Constants.players_per_group
+
+		# fob_int = number of the quintile to be used
+		# fob_sol = belief in this quintile
+		if fob_rint == 1:
+			fob_int = 1
+			fob_sol = self.fob_0
+		elif fob_rint == 2:
+			fob_int = 2
+			fob_sol = self.fob_20
+		elif fob_rint == 3:
+			fob_int = 1
+			fob_sol = self.fob_40
+		elif fob_rint == 4:
+			fob_int = 4
+			fob_sol = self.fob_60
+		else:
+			fob_int = 5
+			fob_sol = self.fob_80
 
 
-	# variable for the risk-aversion decision task
+		# fob_int = number of the quintile to be used
+		# fob_sol = belief in this quintile
+		if sob_rint == 1:
+			sob_int = 1
+			sob_sol = self.sob_0
+		elif sob_rint == 2:
+			sob_int = 2
+			sob_sol = self.sob_20
+		elif sob_rint == 3:
+			sob_int = 1
+			sob_sol = self.sob_40
+		elif sob_rint == 4:
+			sob_int = 4
+			sob_sol = self.sob_60
+		else:
+			sob_int = 5
+			sob_sol = self.sob_80
+
+		if fob_r > fob_sol:
+			random_number = random.uniform(0,1)
+			if random_number<=fob_r:
+				self.fob_profit = Constants.bliefs_revenue
+			else:
+				self.fob_profit = 0
+		else:
+			rand_period = random.randint(1,Constants.num_rounds)
+			rand_group = random_randint(1,num_of_groups)
+
+			# choosing random period
+			chosen_s = self.subsession.in_round(rand_period)
+
+			# choosing random group
+			for g in chosen_s.get_groups():
+				if g.id_in_subsession == rand_group:
+					chosen_g = g
+			
+
+			# choosing random player
+			if self.role == 'buyer':
+				chosen_p = g.get_player_by_role('seller')
+			else:
+				chosen_p = g.get_player_by_role('buyer')
+
+			if chosen_p.personal_price >= (i-1)*20 and chosen_p.personal_price <= i*20:
+				self.fob_profit = Constants.bliefs_revenue
+			else:
+				self.fob_profit = 0
+
+		#temp fix:
+		self.sob_profit = 0
+		self.beliefs_profit = self.fob_profit + self.sob_profit
+
+
+
+
+
+
+
+
+
+
+	# part of the model which deals with the risk-aversion task
 	risk_choice = models.DecimalField(max_digits=5, decimal_places=2, default=0, min=0, max=Constants.risk_endowment)
 
 	risk_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
@@ -154,6 +259,13 @@ class Player(BasePlayer):
 
 	#email input varaible:
 	email = models.StringField()
+
+	# show up fee
+	show_up_fee = models.DecimalField(max_digits=5, decimal_places=2, default=Constants.show_up_fee)
+
+	def set_final_profit(self):
+		self.final_profit = self.final_treatment_profit + self.risk_profit + self.beliefs_profit
+
 
 
 

@@ -66,6 +66,9 @@ class SOBInputPage(Page):
 	form_model = 'player'
 	form_fields = ['sob_0','sob_20','sob_40','sob_60','sob_80']
 
+	def before_next_page(self):
+		self.player.set_belief_payoff()
+
 
 
 class RiskInstructions(Page):
@@ -86,6 +89,7 @@ class RiskInputPage(Page):
 
 	def before_next_page(self):
 		self.player.risk_results()
+		self.player.set_final_profit()
 
 class FinalPage(Page):
 	template_name ='DoBilateralTrade_BS/FinalPage.html'
