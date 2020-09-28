@@ -74,6 +74,8 @@ class RiskInstructions(Page):
 		return self.player.subsession.round_number == Constants.num_rounds
 
 
+
+
 class RiskInputPage(Page):
 	template_name ='DoBilateralTrade_BS/RiskInputPage.html'
 	def is_displayed(self):
@@ -81,6 +83,9 @@ class RiskInputPage(Page):
 
 	form_model = 'player'
 	form_fields = ['risk_choice']
+
+	def before_next_page(self):
+		self.player.risk_results()
 
 class FinalPage(Page):
 	template_name ='DoBilateralTrade_BS/FinalPage.html'

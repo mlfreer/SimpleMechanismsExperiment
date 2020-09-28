@@ -2,7 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-    RISK INPUT SCREEN
+    The experiment is finished...
 {% endblock %}
 
 
@@ -16,7 +16,7 @@
 		<td> Round chosen for payment </td>
 		<td> {{ player.group.subsession.paying_round }} </td>
 	</tr>
-	<tr>
+	<tr style="border-bottom:2px solid black">
 		<td> Your earning in the main part of the experiment </td>
 		<td> {{ player.final_treatment_profit }} </td>
 	</tr>
@@ -24,11 +24,11 @@
 		<td> Your earning in the first post-experimental task </td>
 		<td> </td>
 	</tr>
-	<tr style="border-bottom:1px solid black">
-		<td> Your earnings in the second post-experimental tas </td>
-		<td> </td>
+	<tr style="border-bottom:2px solid black">
+		<td> Your earnings in the second post-experimental task </td>
+		<td> {{ player.risk_profit }}</td>
 	</tr>
-	<tr style="border-bottom:1px solid black">
+	<tr style="border-bottom:2px solid black">
 		<td> Your Total Earnings </td>
 		<td> </td>
 	</tr>
