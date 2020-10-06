@@ -30,7 +30,8 @@ class Constants(BaseConstants):
 
 
 	#constants for Beliefs:
-	bliefs_revenue = 2.5
+	beliefs_revenue = 2.5
+	beliefs_probability_normalizer = 4
 
 	# constants for Trade:
 	trade_exchange_rate = .1
@@ -128,23 +129,13 @@ class Player(BasePlayer):
 	#sob = second order belief
 	#belief comes with 5 vars corresponding to its own quantile
 
-	# first order beliefs, defined witthe the lower bound of the interval.
-	fob_0 = models.IntegerField(initial=0)
-	fob_20 = models.IntegerField(initial=0)
-	fob_40 = models.IntegerField(initial=0)
-	fob_60 = models.IntegerField(initial=0)
-	fob_80 = models.IntegerField(initial=0)
-
+	# first order beliefs -- median
+	fob_median = models.DecimalField(max_digits=5, decimal_places=0,default=0)
 	fob_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 
-	# second order beliefs, defined witthe the lower bound of the interval.
-	sob_0 = models.IntegerField(initial=0)
-	sob_20 = models.IntegerField(initial=0)
-	sob_40 = models.IntegerField(initial=0)
-	sob_60 = models.IntegerField(initial=0)
-	sob_80 = models.IntegerField(initial=0)
-
+	# second order beliefs -- median
+	sob_median = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 	sob_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 	# total profit form the beliefs treatment
@@ -156,87 +147,74 @@ class Player(BasePlayer):
 		fob_r = random.uniform(0,1)
 		sob_r = random.uniform(0,1)
 
-		# randomly selecting the interval (1..5)
-		fob_rint = random.randint(1,5)
-		sob_rint = random.randint(1,5)
 
 		# determining number of groups:
 		num_of_groups = self.session.num_participants/Constants.players_per_group
-
-		# fob_int = number of the quintile to be used
-		# fob_sol = belief in this quintile
-		if fob_rint == 1:
-			fob_int = 1
-			fob_sol = self.fob_0
-		elif fob_rint == 2:
-			fob_int = 2
-			fob_sol = self.fob_20
-		elif fob_rint == 3:
-			fob_int = 1
-			fob_sol = self.fob_40
-		elif fob_rint == 4:
-			fob_int = 4
-			fob_sol = self.fob_60
-		else:
-			fob_int = 5
-			fob_sol = self.fob_80
+		# number of observations
+		sob_n = self.session.num_participants/2
+		fob_n = Constants.num_rounds*self.session.num_participants/2
 
 
-		# fob_int = number of the quintile to be used
-		# fob_sol = belief in this quintile
-		if sob_rint == 1:
-			sob_int = 1
-			sob_sol = self.sob_0
-		elif sob_rint == 2:
-			sob_int = 2
-			sob_sol = self.sob_20
-		elif sob_rint == 3:
-			sob_int = 1
-			sob_sol = self.sob_40
-		elif sob_rint == 4:
-			sob_int = 4
-			sob_sol = self.sob_60
-		else:
-			sob_int = 5
-			sob_sol = self.sob_80
-
-		if fob_r > fob_sol:
-			random_number = random.uniform(0,1)
-			if random_number<=fob_r:
-				self.fob_profit = Constants.bliefs_revenue
-			else:
-				self.fob_profit = 0
-		else:
-			rand_period = random.randint(1,Constants.num_rounds)
-			rand_group = random_randint(1,num_of_groups)
-
-			# choosing random period
-			chosen_s = self.subsession.in_round(rand_period)
-
-			# choosing random group
-			for g in chosen_s.get_groups():
-				if g.id_in_subsession == rand_group:
-					chosen_g = g
-			
-
-			# choosing random player
+		# probabilities above and below:
+		sob_p_below = 0
+		sob_p_above = 0
+		# determining SOB profit:
+		for g in self.subsession.get_groups():
 			if self.role == 'buyer':
-				chosen_p = g.get_player_by_role('seller')
+				p = g.get_player_by_role('seller')
 			else:
-				chosen_p = g.get_player_by_role('buyer')
+				p = g.get_player_by_role('buyer')
 
-			if chosen_p.personal_price >= (i-1)*20 and chosen_p.personal_price <= i*20:
-				self.fob_profit = Constants.bliefs_revenue
+			if p.fob_median<=self.sob_median:
+				sob_p_below = sob_p_below+1
 			else:
-				self.fob_profit = 0
+				sob_p_above = sob_p_above+1
 
-		#temp fix:
-		self.sob_profit = 0
+		# normalizing:
+		sob_p_below = sob_p_below / sob_n
+		sob_p_above = sob_p_above / sob_n
+
+		if sob_r <= sob_p_above*sob_p_above*Constants.beliefs_probability_normalizer:
+			self.sob_profit = Constants.beliefs_revenue
+		else:
+			self.sob_profit = 0
+		# end of SOB profit computation
+
+
+		# Computing profits for the FOB:
+		fob_p_below = 0
+		fob_p_above = 0
+
+		# running cycle over all periods:
+		for t in range(1,Constants.num_rounds):
+			groups = self.subsession.in_round(t).get_groups()
+
+			for g in groups:
+				# determining the relevant group:
+				if self.role == 'buyer':
+					p = g.get_player_by_role('seller')
+				else:
+					p = g.get_player_by_role('buyer')
+				# placing the observation:
+				if p.personal_price<=self.fob_median:
+					fob_p_below = fob_p_below+1
+				else:
+					fob_p_above = fob_p_above+1
+
+		#normalizing the probability:
+		fob_p_below = fob_p_below / fob_n
+		fob_p_above = fob_p_above / fob_n
+
+		# computing the profit:
+		if fob_r <= fob_p_above*fob_p_above*Constants.beliefs_probability_normalizer:
+			self.fob_profit = Constants.beliefs_revenue
+		else:
+			self.fob_profit = 0
+		# end of SOB profit computation
+
+		#computing total profit:
 		self.beliefs_profit = self.fob_profit + self.sob_profit
-
-
-
-
+		# EOF parofit computation function
 
 
 

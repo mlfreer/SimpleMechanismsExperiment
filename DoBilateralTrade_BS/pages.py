@@ -49,7 +49,7 @@ class FOBInputPage(Page):
 		return self.player.subsession.round_number == Constants.num_rounds
 
 	form_model = 'player'
-	form_fields = ['fob_0','fob_20','fob_40','fob_60','fob_80']
+	form_fields = ['fob_median']
 
 
 class SOBInstructions(Page):
@@ -64,7 +64,7 @@ class SOBInputPage(Page):
 		return self.player.subsession.round_number == Constants.num_rounds
 
 	form_model = 'player'
-	form_fields = ['sob_0','sob_20','sob_40','sob_60','sob_80']
+	form_fields = ['sob_median']
 
 	def before_next_page(self):
 		self.player.set_belief_payoff()
