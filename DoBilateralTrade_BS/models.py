@@ -30,7 +30,7 @@ class Constants(BaseConstants):
 
 
 	#constants for Beliefs:
-	beliefs_revenue = 2.5
+	beliefs_revenue = 3
 	beliefs_probability_normalizer = 4
 
 	# constants for Trade:
