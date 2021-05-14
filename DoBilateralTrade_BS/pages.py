@@ -4,14 +4,14 @@ from .models import Constants
 
 
 class WelcomePage(Page):
-	template_name ='DoBilateralTrade_BS/WelcomePage.html'
+	template_name ='global/Trade_Welcome.html'
 	def is_displayed(self):
 		return self.player.subsession.round_number == 1
 
 	#after_all_players_arrive = 'player.set_value'
 
 class PriceInputPage(Page):
-	template_name ='DoBilateralTrade_BS/PriceInputPage.html'
+	template_name ='global/Price_Input_Page.html'
 
 	form_model = 'player'
 	form_fields = ['personal_price','fob','sob']
@@ -28,7 +28,7 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-	template_name ='DoBilateralTrade_BS/Results.html' 
+	template_name ='global/Trade_Results.html' 
 	def vars_for_template(self):
 		return dict(
 			lb_fob = self.player.fob*10,
@@ -48,7 +48,7 @@ class EarningsWaitPage(WaitPage):
 
 
 class RiskInstructions(Page):
-	template_name ='DoBilateralTrade_BS/RiskInstructions.html' 
+	template_name ='global/Risk_Instructions.html' 
 	def is_displayed(self):
 		return self.player.subsession.round_number == Constants.num_rounds
 
@@ -56,7 +56,7 @@ class RiskInstructions(Page):
 
 
 class RiskInputPage(Page):
-	template_name ='DoBilateralTrade_BS/RiskInputPage.html'
+	template_name ='global/Risk_Input.html'
 	def is_displayed(self):
 		return self.player.subsession.round_number == Constants.num_rounds
 
@@ -68,7 +68,7 @@ class RiskInputPage(Page):
 		self.player.set_final_profit()
 
 class FinalPage(Page):
-	template_name ='DoBilateralTrade_BS/FinalPage.html'
+	template_name ='global/Trade_Final_Page.html'
 	def is_displayed(self):
 		return self.player.subsession.round_number == Constants.num_rounds
 

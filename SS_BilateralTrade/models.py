@@ -43,6 +43,7 @@ class Constants(BaseConstants):
 	num_rounds = 2  
 
 class Subsession(BaseSubsession):
+	paying_round = models.IntegerField()
 
 	def creating_session(self):
 		# groupping people with the fixed roles (recall role is )
@@ -62,6 +63,7 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
 	# in DS Bilateral Trade the price is determined as random:
 	final_price = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+	paying_round = models.IntegerField()
 	
 
 	# setting payoffs function:
@@ -78,63 +80,81 @@ class Group(BaseGroup):
 		p_buyer.set_belief_payoff()
 		p_seller.set_belief_payoff()
 
+	# setting final payoffs:
+	def set_final_payoff(self):
+		self.subsession.paying_round=random.randint(1,Constants.num_rounds)
+		for p in self.get_players():
+			# also converting to GBPs:
+			p.final_treatment_profit = p.in_round(self.subsession.paying_round).profit*decimal.Decimal(Constants.trade_exchange_rate)
+			p.final_beliefs_profit = p.in_round(self.subsession.paying_round).beliefs_profit*decimal.Decimal(Constants.trade_exchange_rate)
+
+
+
 
 
 class Player(BasePlayer):
+	# VARIABLES:
 	# type of the player: 0 == seller; 1 == buyer
 	def role(self):
 		if self.id_in_group == 1:
 			return 'buyer'
 		if self.id_in_group == 2:
 			return 'seller'
-
 	# variables for the values
-	value = models.DecimalField(max_digits=5, decimal_places=1, default=0)
-	#buyer_value  = models.DecimalField(max_digits=5, decimal_places=1, default=0)
-	# setting the values
-	def set_value(self):
-		self.value = random.uniform(Constants.min_support,Constants.max_support)
-		#print('value set')
-
-
-
-
+	value = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 	# variables for the prices:
-	personal_price = models.DecimalField(max_digits=5, decimal_places=1, default=0)
-	#buyer_price  = models.DecimalField(max_digits=5, decimal_places=1, default=0)
-
+	personal_price = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 	# profit variable
-	profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
+	profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 
-	final_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
-
-	#defining the belief related variables
-	#fob = first order belief
-	#sob = second order belief
+	# first order beliefs 
 	fob = models.IntegerField()
-	# second order beliefs -- median
+	hit_fob = models.BooleanField(default=False)
+	# second order beliefs 
 	sob = models.IntegerField()
+	hit_sob = models.BooleanField(default=False)
 	# total profit form the beliefs treatment
 	beliefs_profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 
+	# risk treatment variables
+	risk_choice = models.DecimalField(max_digits=5, decimal_places=2, default=0, min=0, max=Constants.risk_endowment)
+	risk_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+	#payment info:
+	#email input varaible:
+	email = models.StringField()
+	# show up fee
+	show_up_fee = models.DecimalField(max_digits=5, decimal_places=2, default=Constants.show_up_fee)
+	# profit from trade
+	final_treatment_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	# profit form beliefs
+	final_beliefs_profit = models.DecimalField(max_digits=5,decimal_places=2,default=0)
+	# profit from the experiment 50/50 trade and beliefs
+	final_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	# trade chosen for payment
+	trade_chosen = models.BooleanField(default = False)
+
+
+	# FUNCTIONS:
+	# setting the values
+	def set_value(self):	
+		self.value = round(random.uniform(Constants.min_support,Constants.max_support),0)
+		#print('value set')
+	
 	# functions defining the payoff
 	def set_belief_payoff(self):
 		self.beliefs_profit = 0
+		self.hit_fob = False
+		self.hit_sob = False
 		for p in self.get_others_in_group():
 			if (p.personal_price>= self.fob*10) and (p.personal_price<= (self.fob+2)*10):
 				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
+				self.hit_fob=True
 			if (p.fob==self.sob):
 				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
+				self.hit_sob=True
 
-
-
-
-	# part of the model which deals with the risk-aversion task
-	risk_choice = models.DecimalField(max_digits=5, decimal_places=2, default=0, min=0, max=Constants.risk_endowment)
-
-	risk_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
+	# setting payoffs for risk task:			
 	def risk_results(self):
 		r = random.uniform(0,1)
 		risk_hold = Constants.risk_endowment-self.risk_choice
@@ -142,18 +162,18 @@ class Player(BasePlayer):
 			self.risk_profit = Constants.risk_exchange_rate*(self.risk_choice*Constants.risk_return+risk_hold)
 		else:
 			self.risk_profit = risk_hold
-
-
-	#email input varaible:
-	email = models.StringField()
-
-	# show up fee
-	show_up_fee = models.DecimalField(max_digits=5, decimal_places=2, default=Constants.show_up_fee)
-
+	
+	# setting final profit:
 	def set_final_profit(self):
-		self.final_profit = self.final_treatment_profit + self.risk_profit + self.beliefs_profit
-
-
+		# start with generating random number
+		r = random.uniform(0,1)
+		if r<=.5:
+			self.final_profit = self.final_treatment_profit + self.risk_profit
+			self.trade_chosen = True
+		else:
+			self.final_profit = self.risk_profit + self.final_beliefs_profit
+			self.trade_chosen = False
+		
 
 
 
