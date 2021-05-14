@@ -79,6 +79,7 @@ class Group(BaseGroup):
 
 	# setting payoffs function:
 	def set_payoffs(self):
+		# trade profit:
 		p_buyer  = self.get_player_by_role('buyer')
 		p_seller = self.get_player_by_role('seller')
 		if p_buyer.personal_price >= self.final_price and p_seller.personal_price <= self.final_price:
@@ -87,6 +88,10 @@ class Group(BaseGroup):
 		else:
 			p_buyer.profit = 0
 			p_seller.profit = 0
+		# belief profit:
+		p_buyer.set_belief_payoff()
+		p_seller.set_belief_payoff()
+
 
 	def set_final_payoff(self):
 		self.subsession.paying_round=random.randint(1,Constants.num_rounds)
@@ -127,96 +132,20 @@ class Player(BasePlayer):
 	#defining the belief related variables
 	#fob = first order belief
 	#sob = second order belief
-	#belief comes with 5 vars corresponding to its own quantile
-
-	# first order beliefs -- median
-	fob_median = models.DecimalField(max_digits=5, decimal_places=0,default=0)
-	fob_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
-
+	fob = models.IntegerField()
 	# second order beliefs -- median
-	sob_median = models.DecimalField(max_digits=5, decimal_places=0, default=0)
-	sob_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
+	sob = models.IntegerField()
 	# total profit form the beliefs treatment
-	beliefs_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	beliefs_profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 
 	# functions defining the payoff
 	def set_belief_payoff(self):
-		# defining the random number for both treatments
-		fob_r = random.uniform(0,1)
-		sob_r = random.uniform(0,1)
-
-
-		# determining number of groups:
-		num_of_groups = self.session.num_participants/Constants.players_per_group
-		# number of observations
-		sob_n = self.session.num_participants/2
-		fob_n = Constants.num_rounds*self.session.num_participants/2
-
-
-		# probabilities above and below:
-		sob_p_below = 0
-		sob_p_above = 0
-		# determining SOB profit:
-		for g in self.subsession.get_groups():
-			if self.role == 'buyer':
-				p = g.get_player_by_role('seller')
-			else:
-				p = g.get_player_by_role('buyer')
-
-			if p.fob_median<=self.sob_median:
-				sob_p_below = sob_p_below+1
-			else:
-				sob_p_above = sob_p_above+1
-
-		# normalizing:
-		sob_p_below = sob_p_below / sob_n
-		sob_p_above = sob_p_above / sob_n
-
-		if sob_r <= sob_p_above*sob_p_above*Constants.beliefs_probability_normalizer:
-			self.sob_profit = Constants.beliefs_revenue
-		else:
-			self.sob_profit = 0
-		# end of SOB profit computation
-
-
-		# Computing profits for the FOB:
-		fob_p_below = 0
-		fob_p_above = 0
-
-		# running cycle over all periods:
-		for t in range(1,Constants.num_rounds):
-			groups = self.subsession.in_round(t).get_groups()
-
-			for g in groups:
-				# determining the relevant group:
-				if self.role == 'buyer':
-					p = g.get_player_by_role('seller')
-				else:
-					p = g.get_player_by_role('buyer')
-				# placing the observation:
-				if p.personal_price<=self.fob_median:
-					fob_p_below = fob_p_below+1
-				else:
-					fob_p_above = fob_p_above+1
-
-		#normalizing the probability:
-		fob_p_below = fob_p_below / fob_n
-		fob_p_above = fob_p_above / fob_n
-
-		# computing the profit:
-		if fob_r <= fob_p_above*fob_p_above*Constants.beliefs_probability_normalizer:
-			self.fob_profit = Constants.beliefs_revenue
-		else:
-			self.fob_profit = 0
-		# end of SOB profit computation
-
-		#computing total profit:
-		self.beliefs_profit = self.fob_profit + self.sob_profit
-		# EOF parofit computation function
-
-
+		self.beliefs_profit = 0
+		for p in self.get_others_in_group():
+			if (p.personal_price>= self.fob*10) and (p.personal_price<= (self.fob+2)*10):
+				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
+			if (p.fob>= self.sob) and (p.fob < (self.fob+2)):
+				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
 
 
 
