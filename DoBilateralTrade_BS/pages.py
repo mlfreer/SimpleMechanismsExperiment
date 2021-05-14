@@ -75,6 +75,11 @@ class FinalPage(Page):
 	form_model = 'player'
 	form_fields = ['email']
 
+	def vars_for_template(self):
+		return dict(
+			trade_chosen = self.player.trade_chosen
+			)
+
 page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results, EarningsWaitPage, RiskInstructions, RiskInputPage, FinalPage]
 
 

@@ -12,27 +12,32 @@
 
 	<font size="4">
 	<table class="table">
-	<tr>
+	<tr style="border-bottom:2px solid black">
 		<td> Round chosen for payment </td>
 		<td> {{ player.group.subsession.paying_round }} </td>
 	</tr>
-	<tr style="border-bottom:2px solid black">
-		<td> Your earning in the main part of the experiment </td>
+	<tr>
+		<td> Your earning in trade</td>
 		<td> {{ player.final_treatment_profit }} </td>
 	</tr>
 	<tr>
-		<td> Your earnings in the first post-experimental task </td>
-		<td> {{ player.fob_profit }} </td>
-	</tr>
-	<tr>
-		<td> Your earnings in the second post-experimental task </td>
-		<td> {{ player.sob_profit }}</td>
+		<td> Your earnings in the beliefs elicitation </td>
+		<td> {{ player.final_beliefs_profit}} </td>
 	</tr>
 	<tr style="border-bottom:2px solid black">
-		<td> Your earnings in the third post-experimental task </td>
+		<td> Your earnings in the post-experimental task </td>
 		<td> {{ player.risk_profit }}</td>
 	</tr>
 
+	<tr >
+		<td> Randomly the following part was chosen for payment</td>
+		<td> {% if trade_chosen == True %} 
+			<b> Trade </b>
+			{% else %}
+			<b> Beliefs </b>
+			{% endif %}
+		</td>
+	</tr>
 	<tr style="border-bottom:2px solid black">
 		<td> Your Total Earnings </td>
 		<td>  {{ player.final_profit }} </td>

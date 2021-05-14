@@ -30,8 +30,7 @@ class Constants(BaseConstants):
 
 
 	#constants for Beliefs:
-	beliefs_revenue = 3
-	beliefs_probability_normalizer = 4
+	beliefs_revenue = 50
 
 	# constants for Trade:
 	trade_exchange_rate = .1
@@ -98,6 +97,7 @@ class Group(BaseGroup):
 		for p in self.get_players():
 			# also converting to GBPs:
 			p.final_treatment_profit = p.in_round(self.subsession.paying_round).profit*decimal.Decimal(Constants.trade_exchange_rate)
+			p.final_beliefs_profit = p.in_round(self.subsession.paying_round).beliefs_profit*decimal.Decimal(Constants.trade_exchange_rate)
 
 
 
@@ -124,28 +124,30 @@ class Player(BasePlayer):
 	# profit variable
 	profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 
-	final_treatment_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
-	final_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
 
 	#defining the belief related variables
 	#fob = first order belief
 	#sob = second order belief
 	fob = models.IntegerField()
+	hit_fob = models.BooleanField(default=False)
 	# second order beliefs -- median
 	sob = models.IntegerField()
+	hit_sob = models.BooleanField(default=False)
 	# total profit form the beliefs treatment
 	beliefs_profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 
 	# functions defining the payoff
 	def set_belief_payoff(self):
 		self.beliefs_profit = 0
+		self.hit_fob = False
+		self.hit_sob = False
 		for p in self.get_others_in_group():
 			if (p.personal_price>= self.fob*10) and (p.personal_price<= (self.fob+2)*10):
 				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
+				self.hit_fob=True
 			if (p.fob==self.sob):
 				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
+				self.hit_sob=True
 
 
 
@@ -167,11 +169,31 @@ class Player(BasePlayer):
 	#email input varaible:
 	email = models.StringField()
 
+	# determining the final profit
 	# show up fee
 	show_up_fee = models.DecimalField(max_digits=5, decimal_places=2, default=Constants.show_up_fee)
+	# profit from trade
+	final_treatment_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	# profit form beliefs
+	final_beliefs_profit = models.DecimalField(max_digits=5,decimal_places=2,default=0)
+	# profit from the experiment 50/50 trade and beliefs
+	final_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+	# trade chosen for payment
+	trade_chosen = models.BooleanField(default = False)
+
 
 	def set_final_profit(self):
-		self.final_profit = self.final_treatment_profit + self.risk_profit + self.beliefs_profit
+		# start with generating random number
+		r = random.uniform(0,1)
+		if r<=.5:
+			self.final_profit = self.final_treatment_profit + self.risk_profit
+			self.trade_chosen = True
+		else:
+			self.final_profit = self.self.risk_profit + self.final_beliefs_profit
+			self.trade_chosen = False
+		
+		
 
 
 

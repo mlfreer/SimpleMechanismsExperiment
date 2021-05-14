@@ -8,11 +8,11 @@
 {% block content %}
 	<font size="4">
 	<table class="table">
-	<tr>
+	<tr style="border-bottom:2px solid black">
 		<td> Your role is </td>
 		<td>  <b>{{ player.role }}</b> </td>
 	</tr>
-	<tr>
+	<tr style="border-bottom:2px solid black">
 		<td><b> Trade Part </b></td>
 		<td></td>
 	</tr>
@@ -32,12 +32,12 @@
 	</tr>
 	
 	</tr>
-	<tr>
+	<tr style="border-bottom:2px solid black">
 		<td> Your profit </td>
 		<td> <b>{{ player.profit }}</b> </td>
 	</tr>
 
-	<tr>
+	<tr style="border-bottom:2px solid black">
 		<td><b> Belief Part </b></td>
 		<td></td>
 	</tr>
@@ -47,11 +47,19 @@
 		<td> <b>{{lb_fob}} - {{ub_fob}} </b></td>
 	</tr>
 	<tr>
+		<td> Guess was correct </td>
+		<td> <b>{{player.hit_fob}} </b></td>
+	</tr>
+	<tr>
 		<td> Your SOB choice </td>
 		<td> <b>{{lb_sob}} - {{ub_sob}}</b></td>
 	</tr>
 	<tr>
-		<td> Your profit from beliefs aprt </td>
+		<td> Guess was correct </td>
+		<td> <b>{{player.hit_sob}} </b></td>
+	</tr>
+	<tr style="border-bottom:2px solid black">
+		<td> Your profit from beliefs part </td>
 		<td> <b>{{player.beliefs_profit}}</b></td>
 	</tr>
 
