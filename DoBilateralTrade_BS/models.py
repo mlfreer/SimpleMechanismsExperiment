@@ -144,7 +144,7 @@ class Player(BasePlayer):
 		for p in self.get_others_in_group():
 			if (p.personal_price>= self.fob*10) and (p.personal_price<= (self.fob+2)*10):
 				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
-			if (p.fob>= self.sob) and (p.fob < (self.fob+2)):
+			if (p.fob==self.sob):
 				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
 
 

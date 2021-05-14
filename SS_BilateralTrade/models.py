@@ -21,12 +21,26 @@ The treatment contains the Strategically Simple Bilateral Trade Treatment
 
 class Constants(BaseConstants):
 	name_in_url = 'StrategicallySimpleBilateralTrade'
-	players_per_group = 2
-	num_rounds = 2
-	# creating bounds for the support of the distribution of value:
+	show_up_fee = 5 
+
+	#constants for Risk aversion task:
+	risk_return = 3
+	risk_endowment = 2
+	risk_exchange_rate = 1
+
+
+	#constants for Beliefs:
+	beliefs_revenue = 3
+	beliefs_probability_normalizer = 4
+
+	# constants for Trade:
+	trade_exchange_rate = .1
+
 	min_support = 0
 	max_support = 100
 
+	players_per_group = 2
+	num_rounds = 2  
 
 class Subsession(BaseSubsession):
 
@@ -61,6 +75,9 @@ class Group(BaseGroup):
 		else:
 			p_buyer.profit = 0
 			p_seller.profit = 0
+		p_buyer.set_belief_payoff()
+		p_seller.set_belief_payoff()
+
 
 
 class Player(BasePlayer):
@@ -89,22 +106,52 @@ class Player(BasePlayer):
 	# profit variable
 	profit = models.DecimalField(max_digits=5, decimal_places=1, default=0)
 
-
-	# first order beliefs, defined witthe the lower bound of the interval.
-	fob_0 = models.IntegerField(initial=0)
-	fob_20 = models.IntegerField(initial=0)
-	fob_40 = models.IntegerField(initial=0)
-	fob_60 = models.IntegerField(initial=0)
-	fob_80 = models.IntegerField(initial=0)
-
-	# second order beliefs, defined witthe the lower bound of the interval.
-	sob_0 = models.IntegerField(initial=0)
-	sob_20 = models.IntegerField(initial=0)
-	sob_40 = models.IntegerField(initial=0)
-	sob_60 = models.IntegerField(initial=0)
-	sob_80 = models.IntegerField(initial=0)
+	final_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 
+	#defining the belief related variables
+	#fob = first order belief
+	#sob = second order belief
+	fob = models.IntegerField()
+	# second order beliefs -- median
+	sob = models.IntegerField()
+	# total profit form the beliefs treatment
+	beliefs_profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
+
+	# functions defining the payoff
+	def set_belief_payoff(self):
+		self.beliefs_profit = 0
+		for p in self.get_others_in_group():
+			if (p.personal_price>= self.fob*10) and (p.personal_price<= (self.fob+2)*10):
+				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
+			if (p.fob==self.sob):
+				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
+
+
+
+
+	# part of the model which deals with the risk-aversion task
+	risk_choice = models.DecimalField(max_digits=5, decimal_places=2, default=0, min=0, max=Constants.risk_endowment)
+
+	risk_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+	def risk_results(self):
+		r = random.uniform(0,1)
+		risk_hold = Constants.risk_endowment-self.risk_choice
+		if r>.5:
+			self.risk_profit = Constants.risk_exchange_rate*(self.risk_choice*Constants.risk_return+risk_hold)
+		else:
+			self.risk_profit = risk_hold
+
+
+	#email input varaible:
+	email = models.StringField()
+
+	# show up fee
+	show_up_fee = models.DecimalField(max_digits=5, decimal_places=2, default=Constants.show_up_fee)
+
+	def set_final_profit(self):
+		self.final_profit = self.final_treatment_profit + self.risk_profit + self.beliefs_profit
 
 
 

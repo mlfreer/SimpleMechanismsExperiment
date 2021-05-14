@@ -2,16 +2,23 @@
 {% load otree static %}
 
 {% block title %}
-    Please set up your price
+    PRICE INPUT SCREEN
 {% endblock %}
 
 
 
 {% block content %}
 	{{form.errors}}
-
+<table class="table">
 	<font size="4">
-	<table class="table">
+	
+		<tr>
+		<td>
+		<b> Action Part: Add some words </b>
+		</td>
+		<td>
+		</td>
+	</tr>
 	<tr>
 		<td> Your role is </td>
 		<td>  <b>{{ player.role }}</b> </td>
@@ -20,19 +27,43 @@
 		<td> Your value </td>
 		<td> <b>{{ player.value }}</b> </td>
 	</tr>
+	
 	<tr>
 		<td> Please set up the price </td>
 		<td> {% formfield form.personal_price with label="" %} </td>
 	</tr>
+</table>
 
-
-
-
+<table class="table">
 	<tr>
+		<td><b> In this part you would be asked to input your beliefs </b></td>
+	</tr>
+	<tr>
+		<td>FOB instructions</td>
+		<td><input type="radio" id="fob" name="fob" value="0"> <label for="0">0-20</label></td>	
+		<td><input type="radio" id="fob" name="fob" value="2"> <label for="0">20-40</label></td>	
+		<td><input type="radio" id="fob" name="fob" value="4"> <label for="0">40-60</label></td>	
+		<td><input type="radio" id="fob" name="fob" value="6"> <label for="0">60-80</label></td>
+		<td><input type="radio" id="fob" name="fob" value="8"> <label for="0">80-100</label></td>
+	</tr>
+	<tr>
+		<td>SOB instructions</td>
+		<td><input type="radio" id="sob" name="sob" value="0"> <label for="0">0-20</label></td>	
+		<td><input type="radio" id="sob" name="sob" value="2"> <label for="0">20-40</label></td>	
+		<td><input type="radio" id="sob" name="sob" value="4"> <label for="0">40-60</label></td>	
+		<td><input type="radio" id="sob" name="sob" value="6"> <label for="0">60-80</label></td>
+		<td><input type="radio" id="sob" name="sob" value="8"> <label for="0">80-100</label></td>
+	</tr>
+	<tr>
+		<td> </td>
+		<td> </td>
+		<td> </td>
+		<td> </td>
 		<td> </td>
 		<td>{% next_button %} </td>
 	</tr>
-	</table>
+</table>
+	
 	</font>
 
 
