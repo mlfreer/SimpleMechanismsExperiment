@@ -18,17 +18,20 @@
 	</tr>
 	<tr>
 		<td> Your earning in trade</td>
-		<td> {{ player.final_treatment_profit }} </td>
+		<td> ${{ player.final_treatment_profit }} </td>
 	</tr>
 	<tr>
 		<td> Your earnings in the beliefs elicitation </td>
-		<td> {{ player.final_beliefs_profit}} </td>
+		<td> ${{ player.final_beliefs_profit}} </td>
+	</tr>
+	<tr>
+		<td> Your earnings in the post-experimental task </td>
+		<td> ${{ player.risk_profit }}</td>
 	</tr>
 	<tr style="border-bottom:2px solid black">
-		<td> Your earnings in the post-experimental task </td>
-		<td> {{ player.risk_profit }}</td>
+		<td> Your show-up fee is </td>
+		<td> ${{ Constants.show_up_fee }} </td>
 	</tr>
-
 	<tr >
 		<td> Randomly the following part was chosen for payment</td>
 		<td> {% if trade_chosen == True %} 
@@ -40,16 +43,20 @@
 	</tr>
 	<tr style="border-bottom:2px solid black">
 		<td> Your Total Earnings </td>
-		<td>  {{ player.final_profit }} </td>
+		<td>  ${{ player.final_profit }} </td>
 	</tr>
+<!---
 	<tr>
+		
 		<td> Input email (Obligatory to receive the payment) </td>
 		<td> {% formfield form.email with label="" %} </td>
+	
 	</tr>
+
 	<tr>
 		<td> </td>
 		<td>{% next_button %} </td>
-	</tr>
+	</tr>-->
 	</table>
 	</font>
 

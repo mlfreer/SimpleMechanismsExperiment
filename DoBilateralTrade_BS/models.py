@@ -22,14 +22,13 @@ The treatment contains the Dominant Strategy Bilateral Trade Treatment
 class Constants(BaseConstants):
 	name_in_url = 'DominantStrategyBilateralTrade'
 	show_up_fee = 5	
-
 	#constants for Risk aversion task:
 	risk_return = 3
 	risk_endowment = 2
 	risk_exchange_rate = 1
 
 	#constants for Beliefs:
-	beliefs_revenue = 50
+	beliefs_revenue = 20
 
 	# constants for Trade:
 	trade_exchange_rate = .5
@@ -183,11 +182,13 @@ class Player(BasePlayer):
 		# start with generating random number
 		r = random.uniform(0,1)
 		if r<=.5:
-			self.final_profit = self.final_treatment_profit + self.risk_profit
+			self.final_profit = self.final_treatment_profit + self.risk_profit + decimal.Decimal(Constants.show_up_fee)
 			self.trade_chosen = True
 		else:
-			self.final_profit = self.risk_profit + self.final_beliefs_profit
+			self.final_profit = self.risk_profit + self.final_beliefs_profit + decimal.Decimal(Constants.show_up_fee)
 			self.trade_chosen = False
+		print(self.final_profit)
+		self.payoff = self.final_profit
 		
 		
 
