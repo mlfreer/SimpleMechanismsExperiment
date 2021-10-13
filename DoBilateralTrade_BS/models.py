@@ -32,7 +32,7 @@ class Constants(BaseConstants):
 	beliefs_revenue = 50
 
 	# constants for Trade:
-	trade_exchange_rate = .1
+	trade_exchange_rate = .5
 
 	players_per_group = 2
 	num_rounds = 2
