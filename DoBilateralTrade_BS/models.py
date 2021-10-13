@@ -28,10 +28,10 @@ class Constants(BaseConstants):
 	risk_exchange_rate = 1
 
 	#constants for Beliefs:
-	beliefs_revenue = 20
+	beliefs_revenue = 5
 
 	# constants for Trade:
-	trade_exchange_rate = .5
+	trade_exchange_rate = 2
 
 	players_per_group = 2
 	num_rounds = 2
@@ -161,7 +161,7 @@ class Player(BasePlayer):
 		self.hit_fob = False
 		self.hit_sob = False
 		for p in self.get_others_in_group():
-			if (p.personal_price>= self.fob*10) and (p.personal_price<= (self.fob+2)*10):
+			if (p.personal_price>= self.fob*10) and (p.personal_price<= (self.fob+2)*10-1) or (p.personal_price==100 and self.fob == 8):
 				self.beliefs_profit = self.beliefs_profit+ Constants.beliefs_revenue
 				self.hit_fob=True
 			if (p.fob==self.sob):

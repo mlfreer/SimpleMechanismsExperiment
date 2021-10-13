@@ -28,13 +28,13 @@ class ResultsWaitPage(WaitPage):
 
 
 class Results(Page):
-	template_name ='global/Trade_Results.html' 
+	template_name ='DoBilateralTrade_BS/Trade_Results.html' 
 	def vars_for_template(self):
 		return dict(
 			lb_fob = self.player.fob*10,
-			ub_fob = (self.player.fob+2)*10,
+			ub_fob = (self.player.fob+2)*10-1 + int(self.player.fob==8),
 			lb_sob = self.player.sob*10,
-			ub_sob = (self.player.sob+2)*10
+			ub_sob = (self.player.sob+2)*10-1 + int(self.player.sob==8)
 			)
 
 
