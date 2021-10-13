@@ -11,7 +11,7 @@ class WelcomePage(Page):
 	#after_all_players_arrive = 'player.set_value'
 
 class PriceInputPage(Page):
-	template_name ='global/Price_Input_Page.html'
+	template_name ='DoBilateralTrade_BS/Price_Input_Page.html'
 
 	form_model = 'player'
 	form_fields = ['personal_price','fob','sob']
