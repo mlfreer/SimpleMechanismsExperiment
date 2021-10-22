@@ -30,11 +30,14 @@ class Constants(BaseConstants):
 	#constants for Beliefs:
 	beliefs_revenue = 5
 
+	# BC price:
+	beauty_prize = 5
+
 	# constants for Trade:
 	trade_exchange_rate = 2
 
 	players_per_group = 2
-	num_rounds = 2
+	num_rounds = 1
 
 	min_support = 0
 	max_support = 100	
@@ -47,6 +50,46 @@ class Subsession(BaseSubsession):
 	# VARIABLES:
 	# determining payoff of players
 	paying_round = models.IntegerField()
+
+	#-----------------------------------------------------------------------------
+	# BEAUTY CONTEST PART:
+	# FUNCTIONS:
+	def set_prize(self):
+		temp_sum = 0
+		num_of_players = 0
+		all_players = self.get_players()
+
+		# computing the sum and number of players
+		for p in all_players:
+			temp_sum = temp_sum + p.my_guess
+			num_of_players = num_of_players+1
+
+
+		# computing the correct guess and personal distance.
+		for p in all_players:
+			p.goal_guess = ((2*temp_sum)/(3*num_of_players))
+			p.my_distance = abs(p.my_guess - p.goal_guess)
+
+		# determining min_distance:
+		min_distance = 10000
+		for p in all_players:
+			if p.my_distance<min_distance:
+				min_distance = p.my_distance
+
+		# determining if p is winner:
+		num_of_winners = 0
+		for p in all_players:
+			if p.my_distance == min_distance:
+				p.is_winner=True
+				num_of_winners = num_of_winners + 1
+
+		for p in all_players:
+			p.number_of_winners = num_of_winners
+			if p.is_winner==True:
+				p.my_prize = Constants.beauty_prize/num_of_winners
+
+	#-----------------------------------------------------------------------------
+
 
 	# FUNCTIONS:
 	def creating_session(self):
@@ -74,6 +117,7 @@ class Group(BaseGroup):
 	final_price = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 	paying_round = models.IntegerField()
 
+	
 
 	# FUNCTIONS:
 	# method to support the random price:
@@ -130,9 +174,25 @@ class Player(BasePlayer):
 	# total profit form the beliefs treatment
 	beliefs_profit = models.DecimalField(max_digits=5, decimal_places=0, default=0)
 
-	# risk treatment variables
+	# risk part variables
 	risk_choice = models.DecimalField(max_digits=5, decimal_places=2, default=0, min=0, max=Constants.risk_endowment)
 	risk_profit = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+
+
+	#-----------------------------------------------------------------------------
+	# BEAUTY CONTEST PART:
+
+	# VARIABLES:
+	my_guess = models.IntegerField(min=0, max=100)
+	goal_guess = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	my_distance = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	is_winner = models.BooleanField(default=False)
+	my_prize = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	number_of_winners = models.IntegerField()
+	#-----------------------------------------------------------------------------
+
+
 
 	#payment info:
 	#email input varaible:
@@ -182,10 +242,10 @@ class Player(BasePlayer):
 		# start with generating random number
 		r = random.uniform(0,1)
 		if r<=.5:
-			self.final_profit = self.final_treatment_profit + self.risk_profit + decimal.Decimal(Constants.show_up_fee)
+			self.final_profit = self.final_treatment_profit + self.risk_profit + decimal.Decimal(Constants.show_up_fee) + decimal.Decimal(self.my_prize)
 			self.trade_chosen = True
 		else:
-			self.final_profit = self.risk_profit + self.final_beliefs_profit + decimal.Decimal(Constants.show_up_fee)
+			self.final_profit = self.risk_profit + self.final_beliefs_profit + decimal.Decimal(Constants.show_up_fee) + decimal.Decimal(self.my_prize)
 			self.trade_chosen = False
 		print(self.final_profit)
 		self.payoff = self.final_profit

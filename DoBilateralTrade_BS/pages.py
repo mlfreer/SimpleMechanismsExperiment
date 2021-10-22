@@ -10,6 +10,8 @@ class WelcomePage(Page):
 
 	#after_all_players_arrive = 'player.set_value'
 
+#-----------------------------------------------------------------------------
+# TRADE PAGES:
 class PriceInputPage(Page):
 	template_name ='DoBilateralTrade_BS/Price_Input_Page.html'
 
@@ -18,7 +20,6 @@ class PriceInputPage(Page):
 	# always displayed
 	def is_displayed(self):
 		return True
-
 	
 
 class ResultsWaitPage(WaitPage):
@@ -37,22 +38,49 @@ class Results(Page):
 			ub_sob = (self.player.sob+2)*10-1 + int(self.player.sob==8)
 			)
 
-
 class EarningsWaitPage(WaitPage):
 	def is_displayed(self):
 		return self.player.subsession.round_number == Constants.num_rounds 
 
 	after_all_players_arrive = 'set_final_payoff'
+#-----------------------------------------------------------------------------
 
 
 
-
-class RiskInstructions(Page):
-	template_name ='global/Risk_Instructions.html' 
+#-----------------------------------------------------------------------------
+# BEAUTY CONTEST PAGES:
+class BeautyContestInstructions(Page):
+	template_name ='DoBilateralTrade_BS/BeautyContestInstructions.html' 
 	def is_displayed(self):
 		return self.player.subsession.round_number == Constants.num_rounds
 
 
+class BeautyContestInput(Page):
+	template_name ='DoBilateralTrade_BS/BeautyContestInput.html' 
+
+	form_model = 'player'
+	form_fields = ['my_guess']
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+
+class BeautyContestWaitPage(WaitPage):
+	wait_for_all_groups = True
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+	after_all_players_arrive = 'set_prize'
+#-----------------------------------------------------------------------------
+
+
+
+
+#-----------------------------------------------------------------------------
+# RISK PAGES:
+class RiskInstructions(Page):
+	template_name ='global/Risk_Instructions.html' 
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
 
 
 class RiskInputPage(Page):
@@ -66,6 +94,8 @@ class RiskInputPage(Page):
 	def before_next_page(self):
 		self.player.risk_results()
 		self.player.set_final_profit()
+#-----------------------------------------------------------------------------
+
 
 class FinalPage(Page):
 	template_name ='global/Trade_Final_Page.html'
@@ -80,7 +110,21 @@ class FinalPage(Page):
 			trade_chosen = self.player.trade_chosen
 			)
 
-page_sequence = [WelcomePage, PriceInputPage, ResultsWaitPage, Results, EarningsWaitPage, RiskInstructions, RiskInputPage, FinalPage]
+
+#-----------------------------------------------------------------------------
+# PAGE SEQUENCE:
+page_sequence = [WelcomePage, 
+				PriceInputPage, 
+				ResultsWaitPage, 
+				Results, 
+				EarningsWaitPage,
+				BeautyContestInstructions,
+				BeautyContestInput,
+				BeautyContestWaitPage,
+				RiskInstructions, 
+				RiskInputPage, 
+				FinalPage]
+#-----------------------------------------------------------------------------
 
 
 

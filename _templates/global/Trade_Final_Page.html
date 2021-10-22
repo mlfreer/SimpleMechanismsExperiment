@@ -25,7 +25,11 @@
 		<td> {{ player.final_beliefs_profit}} </td>
 	</tr>
 	<tr>
-		<td> Your earnings in the post-experimental task </td>
+		<td> Your earnings in the post-experimental task 1 </td>
+		<td> {{ player.my_prize }}</td>
+	</tr>
+	<tr>
+		<td> Your earnings in the post-experimental task 2 </td>
 		<td> {{ player.risk_profit }}</td>
 	</tr>
 	<tr style="border-bottom:2px solid black">
@@ -56,9 +60,18 @@
 	<tr>
 		<td> </td>
 		<td>{% next_button %} </td>
+
+	{{player.my_guess}}
+	{{player.is_winner}}
+	{{player.goal_guess}}
+	{{player.my_distance}}
+	{{player.number_of_winners}}
 	</tr>-->
 	</table>
 	</font>
+
+
+
 
 
 {% endblock %}
