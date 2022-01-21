@@ -17,22 +17,10 @@ SESSION_CONFIGS = [
     #    app_sequence=['public_goods', 'payment_info']
     # ),
     {
-         'name': 'DoBilateralTrade_BS',
-         'display_name': 'Dominant Strategy Bilateral Trade',
-         'num_demo_participants': 2,
-         'app_sequence': ['DoBilateralTrade_BS'],
-     },
-     {
-         'name': 'SS_BilateralTrade',
-         'display_name': 'Strategically Simple Bilateral Trade',
-         'num_demo_participants': 2,
-         'app_sequence': ['SS_BilateralTrade'],
-     },
-     {
-         'name': 'NSS_BilateralTrade',
-         'display_name': 'Non-Strategically Simple Bilateral Trade',
-         'num_demo_participants': 2,
-         'app_sequence': ['NSS_BilateralTrade'],
+         'name': 'DSVotingU',
+         'display_name': 'Dominant Strategy Voting with Unequal Strategy Space',
+         'num_demo_participants': 4,
+         'app_sequence': ['DSVotingU'],
      },
 ]
 
