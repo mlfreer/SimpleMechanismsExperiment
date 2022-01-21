@@ -2,11 +2,18 @@
 {% load otree static %}
 
 {% block title %}
-    Voting Results
+    Voting
 {% endblock %}
 
 {% block content %}
 <font size="4">
+
+<table class="table">
+    <tr> 
+        <td> You are player </td>
+        <td> <b> {{ my_number }} </b> </td>
+    </tr>
+</table>
 
 Payoffs of the players look as follows.
 Your payoffs are highlighted in bold.
@@ -16,6 +23,7 @@ Recall that your payoffs is only known to you, while rest of the players think o
 
 <br>
 <br>
+
 <table class="table">
     </tr>
     <tr>
@@ -104,24 +112,37 @@ Recall that your payoffs is only known to you, while rest of the players think o
 
 </table>
 
+Recall that two of the alternatives are elimintated prior to voting.
+Please see below the reamining alternatives and make your choice.
 
+<br>
+<br>
 
 <table class="table">
-<tr>
-    <td> The collective choice is </td> 
-    <td> <b> {{ collective_choice }} </b> </td>
-</tr>
+    <tr>
+        <td> The reamining alternatives are </td>
+        <td> <b> {{options.0}} </b> </td>
+        <td> <b> {{options.1}} </b> </td>
+     </tr>
+     <tr> 
+        <td> Select the alternative you would like to vote for </td>
+        <td> <input id="Option1" type="radio" name="vote" value="{{numeric_options.0}}" required> 
+            <label for="Option1"> {{options.0}} </label>
+        </td>
+        <td> <input id="Option2" type="radio" name="vote" value="{{numeric_options.1}}" required> 
+            <label for="Option2"> {{options.1}} </label>
+        </td>
+     </tr>
 
-<tr>
-    <td> Your payoff is </td>
-    <td> {{ earnings }}</td>
-</tr>
-<tr>
-    <td>  </td>
-    <td> <b> {% next_button %} </b> </td>
-</tr>
+
+     <tr>
+         <td> </td>
+         <td> </td>
+         <td> {% next_button %} </td>
+     </tr>
 </table>
+
+
 </font>
+    
 {% endblock %}
-
-
