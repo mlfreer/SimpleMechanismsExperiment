@@ -62,7 +62,22 @@ class Group(BaseGroup):
         votes = [0 for x in range(0,4)]
         for p in players:
             votes[p.vote-1] = votes[p.vote-1]+1
-        self.Collective_Choice = votes.index(max(votes))
+
+        # checking whether the maximum is unique
+        count = 0
+        max_element = max(votes)
+        for x in votes:
+            if x >= max_element:
+                count = count+1
+
+        if count > 1:
+            r = random.uniform(0,1)
+            if r<=.5:
+                self.Collective_Choice = self.Option1-1
+            else:
+                self.Collective_Choice = self.Option2-1
+        else:
+            self.Collective_Choice = votes.index(max(votes))
 
         players = self.get_players()
         for p in players:
@@ -99,11 +114,13 @@ class Player(BasePlayer):
     # variable to store the voting:
     vote  = models.IntegerField(min=0,max=4)
     earnings = models.IntegerField(min=0,max=20)
+
     def set_payoff(self):
         choice = self.group.Collective_Choice
         self.earnings = Constants.preferences[self.MyPreferences][choice]
-        if self.group.subsession.round_number == self.group.subsession.paying_round:
-            self.payoff = self.earnings
+        if self.subsession.round_number == self.subsession.paying_round:
+            p = self.in_round(Constants.num_rounds)
+            p.payoff = self.earnings
 
 
  

@@ -68,9 +68,23 @@ class Results(Page):
 			earnings = temp1[self.player.group.Collective_Choice]
 			)
 
+class FinalResults(Page):
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+	def vars_for_template(self):
+
+		return dict(
+			earning = self.player.payoff - c(5),
+			show_up_fee = c(5),
+			payoff = self.player.payoff
+			)
+
 
 page_sequence = [Welcome, 
 				SetupWaitPage,
 				Voting,
 				ResultsWaitPage,
-				Results]
+				Results,
+				FinalResults
+				]
