@@ -18,15 +18,15 @@ class SetupWaitPage(WaitPage):
             p.set_MyPrefernces()
         groups = self.subsession.get_groups()
         for g in groups:
-            g.eliminate_alternatives()
+            g.random_elimination()
 
 
 #class ResultsWaitPage(WaitPage):
 #    pass
 
-class Voting(Page):
+class VotingStage1(Page):
     form_model = 'player'
-    form_fields = ['vote']
+    form_fields = ['vote_stage1']
     def vars_for_template(self):
         profile = self.player.MyPreferences
         temp = [0 for x in range(0,4)]
@@ -39,9 +39,36 @@ class Voting(Page):
             preference_profiles = Constants.preferences,
             my_number = self.player.id_in_group,
             my_preferences = temp,
-            numeric_options = [self.group.Option1, self.group.Option2],
-            options = [Constants.alternatives[self.group.Option1-1],Constants.alternatives[self.group.Option2-1]]
+            numeric_options = [self.group.stage1_Option1, self.group.stage1_Option2, self.group.stage1_Option3],
+            options = [Constants.alternatives[self.group.stage1_Option1-1],Constants.alternatives[self.group.stage1_Option2-1],Constants.alternatives[self.group.stage1_Option3-1]]
             )
+
+
+class VotingStage1WaitPage(WaitPage):
+    wait_for_all_groups = False
+    def after_all_players_arrive(self):
+        self.group.eliminitation_voting_t1()
+
+class VotingStage2(Page):
+    form_model = 'player'
+    form_fields = ['vote_stage2']
+    def vars_for_template(self):
+        profile = self.player.MyPreferences
+        temp = [0 for x in range(0,4)]
+        temp[0] = Constants.preferences[profile][0]
+        temp[1] = Constants.preferences[profile][1]
+        temp[2] = Constants.preferences[profile][2]
+        temp[3] = Constants.preferences[profile][3]
+
+        return dict(
+            preference_profiles = Constants.preferences,
+            eliminated = Constants.alternatives[self.group.stage2_Eliminated-1],
+            my_number = self.player.id_in_group,
+            my_preferences = temp,
+            numeric_options = [self.group.stage2_Option1, self.group.stage2_Option2],
+            options = [Constants.alternatives[self.group.stage2_Option1-1],Constants.alternatives[self.group.stage2_Option2-1]]
+            )
+
 
 
 class ResultsWaitPage(WaitPage):
@@ -83,7 +110,9 @@ class FinalResults(Page):
 
 page_sequence = [Welcome, 
                 SetupWaitPage,
-                Voting,
+                VotingStage1,
+                VotingStage1WaitPage,
+                VotingStage2,
                 ResultsWaitPage,
                 Results,
                 FinalResults

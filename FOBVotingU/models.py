@@ -20,7 +20,7 @@ The code for the Dominant Strategy Voting Treatment with Unequal Strategy Space 
 
 
 class Constants(BaseConstants):
-    name_in_url = 'DSVotingU'
+    name_in_url = 'FOBVotingU'
     players_per_group = 4
 
     num_rounds = 5 # number of periods to be set to 10
@@ -46,22 +46,76 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
-    Option1 = models.IntegerField(min=1,max=4,initial=0)
-    Option2 = models.IntegerField(min=1,max=4,initial=0)
 
-    def eliminate_alternatives(self):
+    # defining the alternatives present at the first stage voting:
+    stage1_Option1 = models.IntegerField(min=1,max=4,initial=0)
+    stage1_Option2 = models.IntegerField(min=1,max=4,initial=0)
+    stage1_Option3 = models.IntegerField(min=1,max=4,initial=0)
+
+    # alterantive eliminated at the first stage
+    stage1_Eliminated = models.IntegerField(min=1,max=4,initial=0)
+    def random_elimination(self):
         numeric_alternatives = [1, 2, 3, 4]
         random.shuffle(numeric_alternatives)
-        self.Option1 = numeric_alternatives[0]
-        self.Option2 = numeric_alternatives[1]
+        self.stage1_Option1 = numeric_alternatives[0]
+        self.stage1_Option2 = numeric_alternatives[1]
+        self.stage1_Option3 = numeric_alternatives[2]
+        self.stage1_Eliminated = numeric_alternatives[3]
+
+    #defining the alternatives present at the second stage voting:
+    stage2_Eliminated = models.IntegerField(min=1,max=4,initial=0)
+    stage2_Option1 = models.IntegerField(min=1,max=4,initial=0)
+    stage2_Option2 = models.IntegerField(min=1,max=4,initial=0)
+    def eliminitation_voting_t1(self):
+
+        # counting the votes
+        players = self.get_players()
+        votes = [0 for x in range(0,4)]
+        for p in players:
+            votes[p.vote_stage1-1] = votes[p.vote_stage1-1]+1
+
+        # accounting for previously eliminated alternative:
+        votes[self.stage1_Eliminated-1] = 10
+
+        # checking whether the maximum is unique
+        count = 0
+        temp_index = [0 for x in range(0,1)]
+        max_element = max(votes)
+        k=0
+        for x in votes:
+            if x >= max_element:
+                temp_index[count] = k 
+                count = count+1
+            k=k+1
+
+        if count>1:
+            r = random.uniform(0,1)
+            if r<=.5:
+                self.stage2_Eliminated = temp_index[0]
+            else:
+                self.stage2_Eliminated = temp_index[1]
+        else:
+            self.stage2_Eliminated = votes.index(max(votes))
+
+        # defining the remaining alternatives:
+        numeric_alternatives = [1, 2, 3, 4]
+        temp = [0 for x in range(0,2)]
+        k=0
+        for x in numeric_alternatives:
+            if (x != self.stage1_Eliminated) and (x != self.stage2_Eliminated):
+                temp[k] = x
+                k=k+1
+        self.stage2_Option1 = temp[0]
+        self.stage2_Option2 = temp[1]
 
 
+    # computing the voting results at t=2
     Collective_Choice = models.IntegerField(min=0,max=3,initial=-1)
     def set_results(self):
         players = self.get_players()
         votes = [0 for x in range(0,4)]
         for p in players:
-            votes[p.vote-1] = votes[p.vote-1]+1
+            votes[p.vote_stage2-1] = votes[p.vote_stage2-1]+1
 
         # checking whether the maximum is unique
         count = 0
@@ -73,9 +127,9 @@ class Group(BaseGroup):
         if count > 1:
             r = random.uniform(0,1)
             if r<=.5:
-                self.Collective_Choice = self.Option1-1
+                self.Collective_Choice = self.stage2_Option1-1
             else:
-                self.Collective_Choice = self.Option2-1
+                self.Collective_Choice = self.stage2_Option1-1
         else:
             self.Collective_Choice = votes.index(max(votes))
 
@@ -112,7 +166,8 @@ class Player(BasePlayer):
                 self.MyPreferences = 4
 
     # variable to store the voting:
-    vote  = models.IntegerField(min=0,max=4)
+    vote_stage1  = models.IntegerField(min=0,max=4)
+    vote_stage2  = models.IntegerField(min=0,max=4)
     earnings = models.IntegerField(min=0,max=20)
 
     def set_payoff(self):
