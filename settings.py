@@ -28,6 +28,12 @@ SESSION_CONFIGS = [
          'num_demo_participants': 4,
          'app_sequence': ['FOBVotingU'],
      },
+     {
+         'name': 'SOBVotingU',
+         'display_name': 'Second Order Beliefs Voting with Unequal Strategy Space',
+         'num_demo_participants': 4,
+         'app_sequence': ['SOBVotingU'],
+     },
 ]
 
 

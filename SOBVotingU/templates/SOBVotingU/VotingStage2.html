@@ -120,27 +120,27 @@ Please see below the reamining alternatives and make your choice.
 
 <table class="table">
     <tr>
+        <td> Alternative eliminated at the previous voting stage is </td>
+        <td> <b> {{eliminated}} </b> </td>
+        <td>  </td>
+     </tr>
+    <tr>
         <td> The reamining alternatives are </td>
         <td> <b> {{options.0}} </b> </td>
         <td> <b> {{options.1}} </b> </td>
-        <td> <b> {{options.2}} </b> </td>
      </tr>
      <tr> 
-        <td> Select the alternative you would like to eliminate </td>
-        <td> <input id="Option1" type="radio" name="vote_stage1" value="{{numeric_options.0}}" required> 
+        <td> Select the alternative you would like to select </td>
+        <td> <input id="Option1" type="radio" name="vote_stage2" value="{{numeric_options.0}}" required> 
             <label for="Option1"> {{options.0}} </label>
         </td>
-        <td> <input id="Option2" type="radio" name="vote_stage1" value="{{numeric_options.1}}" required> 
+        <td> <input id="Option2" type="radio" name="vote_stage2" value="{{numeric_options.1}}" required> 
             <label for="Option2"> {{options.1}} </label>
-        </td>
-        <td> <input id="Option2" type="radio" name="vote_stage1" value="{{numeric_options.2}}" required> 
-            <label for="Option2"> {{options.2}} </label>
         </td>
      </tr>
 
 
      <tr>
-         <td> </td>
          <td> </td>
          <td> </td>
          <td> {% next_button %} </td>

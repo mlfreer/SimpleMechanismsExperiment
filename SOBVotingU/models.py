@@ -20,7 +20,7 @@ The code for the Dominant Strategy Voting Treatment with Unequal Strategy Space 
 
 
 class Constants(BaseConstants):
-    name_in_url = 'FOBVotingU'
+    name_in_url = 'SOBVotingU'
     players_per_group = 4
 
     num_rounds = 5 # number of periods to be set to 10
@@ -46,28 +46,93 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
+    # defining the menu in the first stage:
+    stage0_Option1 = models.IntegerField(min=1,max=4,initial=0)
+    stage0_Option2 = models.IntegerField(min=1,max=4,initial=0)
+    stage0_Option3 = models.IntegerField(min=1,max=4,initial=0)
+    stage0_Option4 = models.IntegerField(min=1,max=4,initial=0)
+
+    def set_menu(self):
+        numeric_alternatives = [1, 2, 3, 4]
+        random.shuffle(numeric_alternatives)
+        self.stage0_Option1 = numeric_alternatives[0]
+        self.stage0_Option2 = numeric_alternatives[1]
+        self.stage0_Option3 = numeric_alternatives[2]
+        self.stage0_Option4 = numeric_alternatives[3]
+
 
     # defining the alternatives present at the first stage voting:
     stage1_Option1 = models.IntegerField(min=1,max=4,initial=0)
     stage1_Option2 = models.IntegerField(min=1,max=4,initial=0)
     stage1_Option3 = models.IntegerField(min=1,max=4,initial=0)
-
     # alterantive eliminated at the first stage
     stage1_Eliminated = models.IntegerField(min=1,max=4,initial=0)
-    def random_elimination(self):
+    def eliminitation_voting_t0(self):
+        players = self.get_players()
+        votes = [0 for x in range(0,4)]
+        for p in players:
+            votes[p.vote_stage0-1] = votes[p.vote_stage0-1]+1
+
+        # checking whether the maximum is unique
+        count = 0
+        temp_index = [0 for x in range(0,4)]
+        max_element = max(votes)
+        k=0
+        for x in votes:
+            k=k+1
+
+            if x >= max_element:
+                temp_index[count] = k 
+                count = count+1
+        print(temp_index)
+
+        # controlling for possible ties:
+        if count==1:
+            self.stage1_Eliminated = temp_index[0]
+
+        if count==2:
+            r = random.uniform(0,1)
+            if r<=.5:
+                self.stage1_Eliminated = temp_index[0]
+            else:
+                self.stage1_Eliminated = temp_index[1]
+             
+        if count==4:
+            r = random.uniform(0,1)
+            if r<=.25:
+                self.stage1_Eliminated = temp_index[0]
+            else:
+                if r<=.5:
+                    self.stage1_Eliminated = temp_index[1]
+                else:
+                    if r<=.75:
+                        self.stage1_Eliminated = temp_index[2]
+                    else:
+                        self.stage1_Eliminated = temp_index[3]
+
+        
+
+        # defining the remaining alternatives:
         numeric_alternatives = [1, 2, 3, 4]
-        random.shuffle(numeric_alternatives)
-        self.stage1_Option1 = numeric_alternatives[0]
-        self.stage1_Option2 = numeric_alternatives[1]
-        self.stage1_Option3 = numeric_alternatives[2]
-        self.stage1_Eliminated = numeric_alternatives[3]
+        temp = [0 for x in range(0,3)]
+        k=0
+        for x in numeric_alternatives:
+            if (x != self.stage1_Eliminated):
+                temp[k] = x
+                k=k+1
+        self.stage1_Option1 = temp[0]
+        self.stage1_Option2 = temp[1]
+        self.stage1_Option3 = temp[2]
+        print(temp)
+
+
+
 
     #defining the alternatives present at the second stage voting:
     stage2_Eliminated = models.IntegerField(min=1,max=4,initial=0)
     stage2_Option1 = models.IntegerField(min=1,max=4,initial=0)
     stage2_Option2 = models.IntegerField(min=1,max=4,initial=0)
     def eliminitation_voting_t1(self):
-
         # counting the votes
         players = self.get_players()
         votes = [0 for x in range(0,4)]
@@ -83,19 +148,20 @@ class Group(BaseGroup):
         max_element = max(votes)
         k=0
         for x in votes:
+            k=k+1
             if x >= max_element:
                 temp_index[count] = k 
                 count = count+1
-            k=k+1
+        print(temp_index)
 
         if count>1:
             r = random.uniform(0,1)
             if r<=.5:
-                self.stage2_Eliminated = temp_index[0]+1
+                self.stage2_Eliminated = temp_index[0]
             else:
-                self.stage2_Eliminated = temp_index[1]+1
+                self.stage2_Eliminated = temp_index[1]
         else:
-            self.stage2_Eliminated = votes.index(max(votes))+1
+            self.stage2_Eliminated = temp_index[0]
 
         # defining the remaining alternatives:
         numeric_alternatives = [1, 2, 3, 4]
@@ -107,6 +173,7 @@ class Group(BaseGroup):
                 k=k+1
         self.stage2_Option1 = temp[0]
         self.stage2_Option2 = temp[1]
+        print(temp)
 
 
     # computing the voting results at t=2
@@ -166,6 +233,7 @@ class Player(BasePlayer):
                 self.MyPreferences = 4
 
     # variable to store the voting:
+    vote_stage0  = models.IntegerField(min=0,max=4)
     vote_stage1  = models.IntegerField(min=0,max=4)
     vote_stage2  = models.IntegerField(min=0,max=4)
     earnings = models.IntegerField(min=0,max=20)
