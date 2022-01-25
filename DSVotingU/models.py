@@ -10,7 +10,7 @@ from otree.api import (
 )
 
 import random
-
+import decimal
 
 author = 'Mikhail Freer'
 
@@ -23,7 +23,7 @@ class Constants(BaseConstants):
     name_in_url = 'DSVotingU'
     players_per_group = 4
 
-    num_rounds = 5 # number of periods to be set to 10
+    num_rounds = 2 # number of periods to be set to 10
 
     type_probability = .5 # probability of type of 2 and 3 being (a)
 
@@ -37,12 +37,74 @@ class Constants(BaseConstants):
     preferences[5] = [5, 15, 20, 0] # player 4
 
     alternatives = ['blue', 'green', 'purple', 'red']
+    # showup fee
+    show_up_fee = 5
+
+    # bc payoff:
+    bc_payoff = 5
+
+    # risk constants:
+    risk_max = 20
+    risk_min = 5
+    risk_safe = 15
+    risk_prob_winning = .5
+    risk_prob_paying = .1
 
 
 class Subsession(BaseSubsession):
+    # variables for paying round:
     paying_round = models.IntegerField(min=1,max=Constants.num_rounds,initial=0)
     def set_paying_round(self):
         self.paying_round = random.randint(1,Constants.num_rounds)
+
+    # beauty contest computation:
+    def set_bc_results(self):
+        players = self.get_players()
+
+        # counting the number of players:
+        N=0
+        for p in players:
+            N=N+1
+
+        # defining the vector of guesses
+        guesses = [0 for i in range(0,N)]
+        i=0
+        for p in players:
+            guesses[i] = p.bc_guess
+            i=i+1
+
+        target = decimal.Decimal(2/3)*(sum(guesses))/len(guesses)
+
+        # defining the max distance:
+        distance = [0 for i in range(0,N)]
+        i=0
+        for p in players:
+            distance[i] = abs(target - guesses[i])
+            i=i+1
+        min_distance = min(distance)
+
+        # defining the winners:
+        winners = [0 for i in range(0,N)]
+        i=0      
+        for p in players:
+            if distance[i] == min_distance:
+                winners[i] = 1
+            i=i+1
+        r = random.randint(1,sum(winners))
+        i=0
+        j=1
+        for p in players:
+            if winners[i] == 1 and j==r:
+                p.bc_earnings = Constants.bc_payoff
+            else:
+                p.bc_earnings = 0
+            if winners[i]==1:
+                j=j+1
+            i=i+1
+
+
+
+
 
 
 class Group(BaseGroup):
@@ -115,12 +177,43 @@ class Player(BasePlayer):
     vote  = models.IntegerField(min=0,max=4)
     earnings = models.IntegerField(min=0,max=20)
 
+    # Setting payoffs for the voting treatment:
     def set_payoff(self):
         choice = self.group.Collective_Choice
         self.earnings = Constants.preferences[self.MyPreferences][choice]
         if self.subsession.round_number == self.subsession.paying_round:
             p = self.in_round(Constants.num_rounds)
             p.payoff = self.earnings
+
+    # Beauty contest tasK
+    bc_guess = models.DecimalField(min=0,max=100,max_digits=5,decimal_places=2)
+    bc_earnings = models.IntegerField(min=0,max=5)
+
+    # Risk elicitation task
+    risk_choice = models.IntegerField(min=0,max=1) # choice of the option in risk elicitation task 0 - safe, 1 - risky
+    risk_earnings = models.IntegerField(min=0,max=20)
+
+    def set_risk_results(self):
+        #setting up the default:
+        self.risk_earnings = 0
+        # defining the payoffs:
+        r1 = random.uniform(0,1)
+        if r1<= Constants.risk_prob_paying:
+            self.risk_earnings = Constants.risk_min
+            if self.risk_choice == 0:
+                self.risk_earnings = Constants.risk_safe
+            else:
+                r2 = random.uniform(0,1)
+                if r2<=Constants.risk_prob_winning:
+                    self.risk_earnings = Constants.risk_max
+
+    treatment_payoff = models.CurrencyField(min=0,max=20)
+    def set_final_payoff(self):
+        self.treatment_payoff = self.payoff
+        self.payoff = self.payoff + Constants.show_up_fee + self.risk_earnings + self.bc_earnings
+
+    
+
 
 
  

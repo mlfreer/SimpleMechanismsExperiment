@@ -3,6 +3,7 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
+# welcome page:
 class Welcome(Page):
 	template_name ='DSVotingU/Welcome.html'
 	def is_displayed(self):
@@ -10,6 +11,8 @@ class Welcome(Page):
 	def before_next_page(self):
 		self.player.subsession.set_paying_round()
 
+
+# voting treatment page:
 class SetupWaitPage(WaitPage):
 	wait_for_all_groups = True
 	def after_all_players_arrive(self):
@@ -19,10 +22,6 @@ class SetupWaitPage(WaitPage):
 		groups = self.subsession.get_groups()
 		for g in groups:
 			g.eliminate_alternatives()
-
-
-#class ResultsWaitPage(WaitPage):
-#    pass
 
 class Voting(Page):
 	form_model = 'player'
@@ -44,12 +43,10 @@ class Voting(Page):
 			options = [Constants.alternatives[self.group.Option1-1],Constants.alternatives[self.group.Option2-1]]
 			)
 
-
 class ResultsWaitPage(WaitPage):
 	wait_for_all_groups = False
 	def after_all_players_arrive(self):
 		self.group.set_results()
-
 
 class Results(Page):
 	def vars_for_template(self):
@@ -71,6 +68,65 @@ class Results(Page):
 			earnings = temp1[self.player.group.Collective_Choice]
 			)
 
+# beauty contest task
+class BeautyContestInstructions(Page):
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+
+class BeautyContestDecision(Page):
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+	form_model = 'player'
+	form_fields = ['bc_guess']
+
+
+class BeautyContestWaitPage(WaitPage):
+	wait_for_all_groups = True
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+	def after_all_players_arrive(self):
+		self.subsession.set_bc_results()
+
+# risk elicitation instructions:
+class RiskElicitationInstructions(Page):
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+	def vars_for_template(self):
+		return dict(
+			high_payoff = Constants.risk_max,
+			low_payoff = Constants.risk_min,
+			safe_payoff = Constants.risk_safe,
+			payment_probability = Constants.risk_prob_paying*100,
+			)
+
+
+class RiskElicitationDecision(Page):
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+	form_model = 'player'
+	form_fields = ['risk_choice']
+
+	def vars_for_template(self):
+		return dict(
+			high_payoff = Constants.risk_max,
+			low_payoff = Constants.risk_min,
+			safe_payoff = Constants.risk_safe,
+			payment_probability = Constants.risk_prob_paying*100,
+			)
+
+class RiskElicitationWaitPage(WaitPage):
+	wait_for_all_groups = True
+	def is_displayed(self):
+		return self.player.subsession.round_number == Constants.num_rounds
+	def after_all_players_arrive(self):
+		players = self.subsession.get_players()
+		for p in players:
+			p.set_risk_results()
+			p.set_final_payoff()
+
+
+
+# page with final results:
 class FinalResults(Page):
 	def is_displayed(self):
 		return self.player.subsession.round_number == Constants.num_rounds
@@ -80,14 +136,26 @@ class FinalResults(Page):
 		return dict(
 			earning = self.player.payoff - c(5),
 			show_up_fee = c(5),
+			beauty_contest  = c(self.player.bc_earnings),
+			risk = c(self.player.risk_earnings),
 			payoff = self.player.payoff
 			)
 
 
 page_sequence = [Welcome, 
+				# voting treatment
 				SetupWaitPage,
 				Voting,
 				ResultsWaitPage,
 				Results,
+				# beuaty contest task
+				BeautyContestInstructions,
+				BeautyContestDecision,
+				BeautyContestWaitPage,
+				# risk elicitation task
+				RiskElicitationInstructions,
+				RiskElicitationDecision,
+				RiskElicitationWaitPage,
+				# final results
 				FinalResults
 				]
