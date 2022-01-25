@@ -48,14 +48,19 @@ class Constants(BaseConstants):
     risk_min = 5
     risk_safe = 15
     risk_prob_winning = .5
-    risk_prob_paying = .1
+    risk_prob_paying = 1
 
 
 class Subsession(BaseSubsession):
+    def creating_session(self):
+        self.group_randomly(fixed_id_in_group=False)
+
     # variables for paying round:
     paying_round = models.IntegerField(min=1,max=Constants.num_rounds,initial=0)
     def set_paying_round(self):
-        self.paying_round = random.randint(1,Constants.num_rounds)
+        p_round = random.randint(1,Constants.num_rounds)
+        s = self.in_round(Constants.num_rounds)
+        s.paying_round = p_round
 
     # beauty contest computation:
     def set_bc_results(self):
@@ -72,6 +77,8 @@ class Subsession(BaseSubsession):
         for p in players:
             guesses[i] = p.bc_guess
             i=i+1
+
+        print(guesses)
 
         target = decimal.Decimal(2/3)*(sum(guesses))/len(guesses)
 
@@ -140,7 +147,6 @@ class Group(BaseGroup):
                 self.Collective_Choice = self.Option2-1
         else:
             self.Collective_Choice = votes.index(max(votes))
-
         players = self.get_players()
         for p in players:
             p.set_payoff()
@@ -181,9 +187,9 @@ class Player(BasePlayer):
     def set_payoff(self):
         choice = self.group.Collective_Choice
         self.earnings = Constants.preferences[self.MyPreferences][choice]
-        if self.subsession.round_number == self.subsession.paying_round:
-            p = self.in_round(Constants.num_rounds)
-            p.payoff = self.earnings
+        if self.subsession.round_number == Constants.num_rounds:
+            p = self.in_round(self.subsession.paying_round)
+            self.payoff = p.earnings
 
     # Beauty contest tasK
     bc_guess = models.DecimalField(min=0,max=100,max_digits=5,decimal_places=2)
@@ -207,9 +213,7 @@ class Player(BasePlayer):
                 if r2<=Constants.risk_prob_winning:
                     self.risk_earnings = Constants.risk_max
 
-    treatment_payoff = models.CurrencyField(min=0,max=20)
-    def set_final_payoff(self):
-        self.treatment_payoff = self.payoff
+    def set_all_payoff(self):
         self.payoff = self.payoff + Constants.show_up_fee + self.risk_earnings + self.bc_earnings
 
     

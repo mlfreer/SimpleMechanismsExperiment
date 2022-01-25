@@ -122,7 +122,7 @@ class RiskElicitationWaitPage(WaitPage):
 		players = self.subsession.get_players()
 		for p in players:
 			p.set_risk_results()
-			p.set_final_payoff()
+			p.set_all_payoff()
 
 
 
@@ -132,9 +132,9 @@ class FinalResults(Page):
 		return self.player.subsession.round_number == Constants.num_rounds
 
 	def vars_for_template(self):
-
+		p = self.player.in_round(self.subsession.paying_round)
 		return dict(
-			earning = self.player.payoff - c(5),
+			earning = c(p.earnings),
 			show_up_fee = c(5),
 			beauty_contest  = c(self.player.bc_earnings),
 			risk = c(self.player.risk_earnings),
