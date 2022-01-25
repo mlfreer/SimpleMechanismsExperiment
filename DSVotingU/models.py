@@ -36,7 +36,7 @@ class Constants(BaseConstants):
     preferences[4] = [15, 20, 5, 0] # player 3b
     preferences[5] = [5, 15, 20, 0] # player 4
 
-    alternatives = ['W', 'X', 'Y', 'Z']
+    alternatives = ['blue', 'green', 'purple', 'red']
 
 
 class Subsession(BaseSubsession):

@@ -39,6 +39,7 @@ class Voting(Page):
 			preference_profiles = Constants.preferences,
 			my_number = self.player.id_in_group,
 			my_preferences = temp,
+			my_profile = profile,
 			numeric_options = [self.group.Option1, self.group.Option2],
 			options = [Constants.alternatives[self.group.Option1-1],Constants.alternatives[self.group.Option2-1]]
 			)
@@ -64,7 +65,9 @@ class Results(Page):
 			my_preferences = temp1,
 			preference_profiles = Constants.preferences,
 			my_number = self.player.id_in_group,
+			my_profile = profile,
 			collective_choice = Constants.alternatives[self.player.group.Collective_Choice],
+			numeric_collective_choice = self.player.group.Collective_Choice,
 			earnings = temp1[self.player.group.Collective_Choice]
 			)
 
