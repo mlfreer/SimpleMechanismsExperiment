@@ -10,11 +10,11 @@ from .models import Constants
 class FinalResults(Page):
     def vars_for_template(self):
         return dict(
-            earning = c(p.earnings),
-            show_up_fee = c(5),
-            beauty_contest  = c(self.player.bc_earnings),
-            risk = c(self.player.risk_earnings),
-            payoff = self.player.payoff
+            treatment_earnings = c(self.player.participant.vars['treatment_earnings']),
+            bc_earnings = c(self.player.participant.vars['bc_earnings']),
+            risk_earnings = c(self.player.participant.vars['risk_earnings']),
+            total_earnings = c(self.player.participant.vars['treatment_earnings'])+c(self.player.participant.vars['bc_earnings'])+c(self.player.participant.vars['risk_earnings']),
+            show_up_fee = self.session.config['participation_fee']
             )
 
 

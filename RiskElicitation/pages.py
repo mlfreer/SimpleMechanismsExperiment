@@ -32,7 +32,7 @@ class RiskElicitationWaitPage(WaitPage):
         players = self.subsession.get_players()
         for p in players:
             p.set_risk_results()
-            p.participant.vars['risk_earnings'] = self.player.risk_earnings
+            p.participant.vars['risk_earnings'] = p.risk_earnings
 
 # temporary results page
 class RiskElicitationResults(Page):
