@@ -20,7 +20,7 @@ SESSION_CONFIGS = [
          'name': 'DSVotingU',
          'display_name': 'Dominant Strategy Voting with Unequal Strategy Space',
          'num_demo_participants': 4,
-         'app_sequence': ['DSVotingU'],
+         'app_sequence': ['DSVotingU','BeautyContest','RiskElicitation','FinalResults'],
      },
      {
          'name': 'FOBVotingU',

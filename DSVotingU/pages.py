@@ -50,6 +50,9 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
 	def vars_for_template(self):
+		if self.player.subsession.round_number == Constants.num_rounds:
+			self.player.participant.vars['treatment_earnings'] = self.player.earnings
+
 		temp1 = [0 for x in range(0,4)]
 		profile = self.player.MyPreferences
 		temp1[0] = Constants.preferences[profile][0]
@@ -68,31 +71,11 @@ class Results(Page):
 			earnings = temp1[self.player.group.Collective_Choice]
 			)
 
-
-
-
-# page with final results:
-class FinalResults(Page):
-	def is_displayed(self):
-		return self.player.subsession.round_number == Constants.num_rounds
-
-	def vars_for_template(self):
-		p = self.player.in_round(self.subsession.paying_round)
-		return dict(
-			earning = c(p.earnings),
-			show_up_fee = c(5),
-			beauty_contest  = c(self.player.bc_earnings),
-			risk = c(self.player.risk_earnings),
-			payoff = self.player.payoff
-			)
-
-
 page_sequence = [Welcome, 
 				# voting treatment
 				SetupWaitPage,
 				Voting,
 				ResultsWaitPage,
 				Results,
-				# final results
-				FinalResults
+				
 				]
