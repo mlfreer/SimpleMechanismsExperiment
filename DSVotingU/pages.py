@@ -68,25 +68,6 @@ class Results(Page):
 			earnings = temp1[self.player.group.Collective_Choice]
 			)
 
-# beauty contest task
-class BeautyContestInstructions(Page):
-	def is_displayed(self):
-		return self.player.subsession.round_number == Constants.num_rounds
-
-class BeautyContestDecision(Page):
-	def is_displayed(self):
-		return self.player.subsession.round_number == Constants.num_rounds
-	form_model = 'player'
-	form_fields = ['bc_guess']
-
-
-class BeautyContestWaitPage(WaitPage):
-	wait_for_all_groups = True
-	def is_displayed(self):
-		return self.player.subsession.round_number == Constants.num_rounds
-	def after_all_players_arrive(self):
-		self.subsession.set_bc_results()
-
 # risk elicitation instructions:
 class RiskElicitationInstructions(Page):
 	def is_displayed(self):
@@ -148,10 +129,6 @@ page_sequence = [Welcome,
 				Voting,
 				ResultsWaitPage,
 				Results,
-				# beuaty contest task
-				BeautyContestInstructions,
-				BeautyContestDecision,
-				BeautyContestWaitPage,
 				# risk elicitation task
 				RiskElicitationInstructions,
 				RiskElicitationDecision,

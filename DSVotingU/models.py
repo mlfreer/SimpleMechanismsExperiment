@@ -62,56 +62,6 @@ class Subsession(BaseSubsession):
         s = self.in_round(Constants.num_rounds)
         s.paying_round = p_round
 
-    # beauty contest computation:
-    def set_bc_results(self):
-        players = self.get_players()
-
-        # counting the number of players:
-        N=0
-        for p in players:
-            N=N+1
-
-        # defining the vector of guesses
-        guesses = [0 for i in range(0,N)]
-        i=0
-        for p in players:
-            guesses[i] = p.bc_guess
-            i=i+1
-
-        print(guesses)
-
-        target = decimal.Decimal(2/3)*(sum(guesses))/len(guesses)
-
-        # defining the max distance:
-        distance = [0 for i in range(0,N)]
-        i=0
-        for p in players:
-            distance[i] = abs(target - guesses[i])
-            i=i+1
-        min_distance = min(distance)
-
-        # defining the winners:
-        winners = [0 for i in range(0,N)]
-        i=0      
-        for p in players:
-            if distance[i] == min_distance:
-                winners[i] = 1
-            i=i+1
-        r = random.randint(1,sum(winners))
-        i=0
-        j=1
-        for p in players:
-            if winners[i] == 1 and j==r:
-                p.bc_earnings = Constants.bc_payoff
-            else:
-                p.bc_earnings = 0
-            if winners[i]==1:
-                j=j+1
-            i=i+1
-
-
-
-
 
 
 class Group(BaseGroup):
@@ -190,10 +140,6 @@ class Player(BasePlayer):
         if self.subsession.round_number == Constants.num_rounds:
             p = self.in_round(self.subsession.paying_round)
             self.payoff = p.earnings
-
-    # Beauty contest tasK
-    bc_guess = models.DecimalField(min=0,max=100,max_digits=5,decimal_places=2)
-    bc_earnings = models.IntegerField(min=0,max=5)
 
     # Risk elicitation task
     risk_choice = models.IntegerField(min=0,max=1) # choice of the option in risk elicitation task 0 - safe, 1 - risky

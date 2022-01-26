@@ -34,6 +34,12 @@ SESSION_CONFIGS = [
          'num_demo_participants': 4,
          'app_sequence': ['SOBVotingU'],
      },
+     {
+         'name': 'BeautyContest',
+         'display_name': 'Beauty Contest',
+         'num_demo_participants': 2,
+         'app_sequence': ['BeautyContest'],
+     },
 ]
 
 
