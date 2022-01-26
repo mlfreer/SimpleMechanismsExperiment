@@ -14,7 +14,8 @@ class FinalResults(Page):
             bc_earnings = c(self.player.participant.vars['bc_earnings']),
             risk_earnings = c(self.player.participant.vars['risk_earnings']),
             total_earnings = c(self.player.participant.vars['treatment_earnings'])+c(self.player.participant.vars['bc_earnings'])+c(self.player.participant.vars['risk_earnings']),
-            show_up_fee = self.session.config['participation_fee']
+            show_up_fee = self.session.config['participation_fee'],
+            code = self.player.participant.code
             )
 
 
