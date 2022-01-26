@@ -58,4 +58,5 @@ class Player(BasePlayer):
             else:
                 r2 = random.uniform(0,1)
                 if r2<=Constants.risk_prob_winning:
-                    self.risk_earnings = Constants.risk_max
+                    self.risk_earnings = Constants.risk_max    
+        self.payoff = self.risk_earnings

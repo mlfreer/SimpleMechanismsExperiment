@@ -46,6 +46,13 @@ SESSION_CONFIGS = [
          'num_demo_participants': 1,
          'app_sequence': ['RiskElicitation'],
      },
+     {
+         'name': 'PostExperimentalTasks',
+         'display_name': 'Post Experimental Tasks (both Beauty Contest and Risk Elictiation)',
+         'num_demo_participants': 2,
+         'app_sequence': ['BeautyContest','RiskElicitation'],
+     },
+
 ]
 
 

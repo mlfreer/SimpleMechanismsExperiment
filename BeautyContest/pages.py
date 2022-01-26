@@ -12,10 +12,14 @@ class BeautyContestDecision(Page):
     form_fields = ['bc_guess']
 
 
+
 class BeautyContestWaitPage(WaitPage):
     wait_for_all_groups = True
     def after_all_players_arrive(self):
         self.subsession.set_bc_results()
+        players = self.subsession.get_players()
+        for p in players:
+            p.participant.vars['bc_earnings'] = p.bc_earnings
 
 # for testing purposes
 class BeautyContestResults(Page):
@@ -29,5 +33,5 @@ page_sequence = [# beuaty contest task
                 BeautyContestInstructions,
                 BeautyContestDecision,
                 BeautyContestWaitPage,
-                BeautyContestResults
+#                BeautyContestResults
                 ]

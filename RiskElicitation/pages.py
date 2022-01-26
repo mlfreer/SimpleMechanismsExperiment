@@ -35,9 +35,11 @@ class RiskElicitationWaitPage(WaitPage):
 
 class RiskElicitationResults(Page):
     def vars_for_template(self):
+        print(self.player.participant.vars)
         return dict(
-            earning = self.player.risk_earnings,
-            choice = self.player.risk_choice
+            risk_earning = self.player.risk_earnings,
+            bc_earning = self.player.participant.vars['bc_earnings'],
+            choice = self.player.risk_choice,
             )
 
 page_sequence = [
