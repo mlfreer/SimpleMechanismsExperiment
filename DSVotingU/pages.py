@@ -68,42 +68,6 @@ class Results(Page):
 			earnings = temp1[self.player.group.Collective_Choice]
 			)
 
-# risk elicitation instructions:
-class RiskElicitationInstructions(Page):
-	def is_displayed(self):
-		return self.player.subsession.round_number == Constants.num_rounds
-	def vars_for_template(self):
-		return dict(
-			high_payoff = Constants.risk_max,
-			low_payoff = Constants.risk_min,
-			safe_payoff = Constants.risk_safe,
-			payment_probability = Constants.risk_prob_paying*100,
-			)
-
-
-class RiskElicitationDecision(Page):
-	def is_displayed(self):
-		return self.player.subsession.round_number == Constants.num_rounds
-	form_model = 'player'
-	form_fields = ['risk_choice']
-
-	def vars_for_template(self):
-		return dict(
-			high_payoff = Constants.risk_max,
-			low_payoff = Constants.risk_min,
-			safe_payoff = Constants.risk_safe,
-			payment_probability = Constants.risk_prob_paying*100,
-			)
-
-class RiskElicitationWaitPage(WaitPage):
-	wait_for_all_groups = True
-	def is_displayed(self):
-		return self.player.subsession.round_number == Constants.num_rounds
-	def after_all_players_arrive(self):
-		players = self.subsession.get_players()
-		for p in players:
-			p.set_risk_results()
-			p.set_all_payoff()
 
 
 
@@ -129,10 +93,6 @@ page_sequence = [Welcome,
 				Voting,
 				ResultsWaitPage,
 				Results,
-				# risk elicitation task
-				RiskElicitationInstructions,
-				RiskElicitationDecision,
-				RiskElicitationWaitPage,
 				# final results
 				FinalResults
 				]

@@ -40,15 +40,7 @@ class Constants(BaseConstants):
     # showup fee
     show_up_fee = 5
 
-    # bc payoff:
-    bc_payoff = 5
-
-    # risk constants:
-    risk_max = 20
-    risk_min = 5
-    risk_safe = 15
-    risk_prob_winning = .5
-    risk_prob_paying = 1
+    
 
 
 class Subsession(BaseSubsession):
@@ -141,26 +133,8 @@ class Player(BasePlayer):
             p = self.in_round(self.subsession.paying_round)
             self.payoff = p.earnings
 
-    # Risk elicitation task
-    risk_choice = models.IntegerField(min=0,max=1) # choice of the option in risk elicitation task 0 - safe, 1 - risky
-    risk_earnings = models.IntegerField(min=0,max=20)
+    
 
-    def set_risk_results(self):
-        #setting up the default:
-        self.risk_earnings = 0
-        # defining the payoffs:
-        r1 = random.uniform(0,1)
-        if r1<= Constants.risk_prob_paying:
-            self.risk_earnings = Constants.risk_min
-            if self.risk_choice == 0:
-                self.risk_earnings = Constants.risk_safe
-            else:
-                r2 = random.uniform(0,1)
-                if r2<=Constants.risk_prob_winning:
-                    self.risk_earnings = Constants.risk_max
-
-    def set_all_payoff(self):
-        self.payoff = self.payoff + Constants.show_up_fee + self.risk_earnings + self.bc_earnings
 
     
 

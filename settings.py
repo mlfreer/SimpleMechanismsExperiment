@@ -40,6 +40,12 @@ SESSION_CONFIGS = [
          'num_demo_participants': 2,
          'app_sequence': ['BeautyContest'],
      },
+     {
+         'name': 'RiskElicitation',
+         'display_name': 'Risk Elicitation Task',
+         'num_demo_participants': 1,
+         'app_sequence': ['RiskElicitation'],
+     },
 ]
 
 
