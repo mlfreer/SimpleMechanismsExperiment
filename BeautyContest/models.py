@@ -85,5 +85,5 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    bc_guess = models.DecimalField(min=0,max=100,max_digits=5,decimal_places=2)
+    bc_guess = models.IntegerField(min=0,max=100)
     bc_earnings = models.IntegerField(min=0,max=5, initial=0)
