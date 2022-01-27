@@ -21,6 +21,7 @@ class SetupWaitPage(WaitPage):
 			p.set_MyPrefernces()
 		groups = self.subsession.get_groups()
 		for g in groups:
+			g.set_ordering()
 			g.eliminate_alternatives()
 
 class Voting(Page):
@@ -29,18 +30,19 @@ class Voting(Page):
 	def vars_for_template(self):
 		profile = self.player.MyPreferences
 		temp = [0 for x in range(0,4)]
-		temp[0] = Constants.preferences[profile][0]
-		temp[1] = Constants.preferences[profile][1]
-		temp[2] = Constants.preferences[profile][2]
-		temp[3] = Constants.preferences[profile][3]
+		temp[0] = Constants.preferences[self.player.group.Ordering][profile][0]
+		temp[1] = Constants.preferences[self.player.group.Ordering][profile][1]
+		temp[2] = Constants.preferences[self.player.group.Ordering][profile][2]
+		temp[3] = Constants.preferences[self.player.group.Ordering][profile][3]
 
 		return dict(
-			preference_profiles = Constants.preferences,
+			preference_profiles = Constants.preferences[self.player.group.Ordering],
 			my_number = self.player.id_in_group,
 			my_preferences = temp,
 			my_profile = profile,
 			numeric_options = [self.group.Option1, self.group.Option2],
-			options = [Constants.alternatives[self.group.Option1-1],Constants.alternatives[self.group.Option2-1]]
+			options = [Constants.alternatives[self.group.Option1-1],Constants.alternatives[self.group.Option2-1]],
+			eliminated = [Constants.alternatives[self.group.Eliminated1-1],Constants.alternatives[self.group.Eliminated2-1]]
 			)
 
 class ResultsWaitPage(WaitPage):
@@ -55,15 +57,15 @@ class Results(Page):
 
 		temp1 = [0 for x in range(0,4)]
 		profile = self.player.MyPreferences
-		temp1[0] = Constants.preferences[profile][0]
-		temp1[1] = Constants.preferences[profile][1]
-		temp1[2] = Constants.preferences[profile][2]
-		temp1[3] = Constants.preferences[profile][3]
+		temp1[0] = Constants.preferences[self.player.group.Ordering][profile][0]
+		temp1[1] = Constants.preferences[self.player.group.Ordering][profile][1]
+		temp1[2] = Constants.preferences[self.player.group.Ordering][profile][2]
+		temp1[3] = Constants.preferences[self.player.group.Ordering][profile][3]
 
 
 		return dict(
 			my_preferences = temp1,
-			preference_profiles = Constants.preferences,
+			preference_profiles = Constants.preferences[self.player.group.Ordering],
 			my_number = self.player.id_in_group,
 			my_profile = profile,
 			collective_choice = Constants.alternatives[self.player.group.Collective_Choice],

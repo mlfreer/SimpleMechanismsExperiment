@@ -37,10 +37,10 @@ Recall that the other players do not know whether you are type {{my_number}}a or
     </tr>
     <tr>
         <td> Player </td>
-        <td style="color:blue"> <b>  blue </b> </td>
+        <td style="color:blue"> <b> blue </b> </td>
         <td style="color:green"> <b> green </b> </td>
         <td style="color:purple"> <b> purple </b> </td>
-        <td style="color:orange"> <b> red </b> </td>
+        <td style="color:#c24e00"> <b> orange </b> </td>
     </tr>
 
     <tr>   
@@ -160,14 +160,14 @@ Recall that the other players do not know whether you are type {{my_number}}a or
     {% if my_number == 4 %}
     <tr>
         <td> <b> 4 </b> </td>
-        {% for temp in my_preferences %}
+        {% for temp in preference_profiles.5 %}
         <td> <b> {{ temp }} </b> </td>
         {% endfor %}
     </tr>
     {% else %}
     <tr>
         <td> 4 </td>
-        {% for temp in preference_profiles.3 %}
+        {% for temp in preference_profiles.5 %}
         <td> {{ temp }} </td>
         {% endfor %}
     </tr>
@@ -185,24 +185,45 @@ The alternative that receives the most votes will be implemented.
 
 <table class="table">
     <tr>
+        <td> Alternatives eliminated at the previous stage are </td>
+        {% if eliminated.0 == 'blue' %}
+        <td  style="color:blue"> <b> {{eliminated.0}} </b> </td>
+        {% elif eliminated.0 == 'green' %}
+        <td  style="color:green"> <b> {{eliminated.0}} </b> </td>
+        {% elif eliminated.0 == 'purple' %}
+        <td  style="color:purple"> <b> {{eliminated.0}} </b> </td>
+        {% elif eliminated.0 == 'orange' %}
+        <td  style="color:#c24e00"> <b> {{eliminated.0}} </b> </td>
+        {% endif %}
+        {% if eliminated.1 == 'blue' %}
+        <td  style="color:blue"> <b> {{eliminated.1}} </b> </td>
+        {% elif eliminated.1 == 'green' %}
+        <td  style="color:green"> <b> {{eliminated.1}} </b> </td>
+        {% elif eliminated.1 == 'purple' %}
+        <td  style="color:purple"> <b> {{eliminated.1}} </b> </td>
+        {% elif eliminated.1 == 'orange' %}
+        <td  style="color:#c24e00"> <b> {{eliminated.1}} </b> </td>
+        {% endif %}
+     </tr>
+    <tr>
         <td> The remaining alternatives are </td>
         {% if numeric_options.0 == 1 %}
         <td  style="color:blue"> <b> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 2 %}
         <td  style="color:green"> <b> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 3 %}
-        <td  style="color:purple;uple"> <b> {{options.0}} </b> </td>
+        <td  style="color:purple"> <b> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 4 %}
-        <td  style="color:red"> <b> {{options.0}} </b> </td>
+        <td  style="color:#c24e00"> <b> {{options.0}} </b> </td>
         {% endif %}
         {% if numeric_options.1 == 1 %}
         <td  style="color:blue"> <b> {{options.1}} </b> </td>
         {% elif numeric_options.1 == 2 %}
         <td  style="color:green"> <b> {{options.1}} </b> </td>
         {% elif numeric_options.1 == 3 %}
-        <td  style="color:purple;uple"> <b> {{options.1}} </b> </td>
+        <td  style="color:purple"> <b> {{options.1}} </b> </td>
         {% elif numeric_options.1 == 4 %}
-        <td  style="color:red"> <b> {{options.1}} </b> </td>
+        <td  style="color:#c24e00"> <b> {{options.1}} </b> </td>
         {% endif %}
      </tr>
      <tr> 
