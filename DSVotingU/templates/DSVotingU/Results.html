@@ -10,14 +10,14 @@
 
 <table class="table">
     <tr> 
-        <td style="width: 70%;"> You are player </td>
+        <td style="width: 70%;"> You are Player </td>
         {% if my_number == 1 or my_number == 4 %}
         <td style="width: 30%;" > <b> {{ my_number }} </b> </td>
         {% else %}
         {% if my_profile == 1 or my_profile == 3%}
-        <td style="width: 30%;"> <b> {{ my_number }} type (a) </b> </td>
+        <td style="width: 30%;"> <b> {{ my_number }}a </b> </td>
         {% elif my_profile == 2 or my_profile == 4%}
-        <td style="width: 30%;"> <b> {{ my_number }} type (b) </b> </td>
+        <td style="width: 30%;"> <b> {{ my_number }}b </b> </td>
         {% endif %}
         {% endif %}
     </tr>
@@ -178,7 +178,7 @@ Recall that your payoffs is only known to you, while rest of the players think o
 
 <table class="table">
     <tr>
-        <td> Alternative implemented is </td>
+        <td> The implemented alternative is </td>
         {% if numeric_collective_choice == 0 %}
         <td  style="color:blue"> <b> {{collective_choice}} </b> </td>
         {% elif numeric_collective_choice == 1 %}
@@ -191,7 +191,7 @@ Recall that your payoffs is only known to you, while rest of the players think o
     </tr>
 
 <tr>
-    <td> Your payoff is </td>
+    <td> Your payment is </td>
     <td> {{ earnings }}</td>
 </tr>
 <tr>

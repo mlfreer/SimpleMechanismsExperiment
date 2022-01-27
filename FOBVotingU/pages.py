@@ -38,6 +38,7 @@ class VotingStage1(Page):
         return dict(
             preference_profiles = Constants.preferences,
             my_number = self.player.id_in_group,
+            my_profile = profile,
             my_preferences = temp,
             numeric_options = [self.group.stage1_Option1, self.group.stage1_Option2, self.group.stage1_Option3],
             options = [Constants.alternatives[self.group.stage1_Option1-1],Constants.alternatives[self.group.stage1_Option2-1],Constants.alternatives[self.group.stage1_Option3-1]]

@@ -10,23 +10,24 @@
 
 <table class="table">
     <tr> 
-        <td style="width: 70%;"> You are player </td>
+        <td style="width: 70%;"> You are Player </td>
         {% if my_number == 1 or my_number == 4 %}
         <td style="width: 30%;" > <b> {{ my_number }} </b> </td>
         {% else %}
         {% if my_profile == 1 or my_profile == 3%}
-        <td style="width: 30%;"> <b> {{ my_number }} type (a) </b> </td>
+        <td style="width: 30%;"> <b> {{ my_number }}a </b> </td>
         {% elif my_profile == 2 or my_profile == 4%}
-        <td style="width: 30%;"> <b> {{ my_number }} type (b) </b> </td>
+        <td style="width: 30%;"> <b> {{ my_number }}b </b> </td>
         {% endif %}
         {% endif %}
     </tr>
 </table>
 
-Payoffs for all players look as follows.
-Your payoffs are highlighted in bold.
+The payments for all players are shown below.
+Your own payments are highlighted in bold.
+<br>
 {% if my_number == 3 or my_number == 2 %}
-Recall that your payoffs is only known to you, while rest of the players think of payoffs being uncertain.
+Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
 {% endif %}
 
 <br>
@@ -39,7 +40,7 @@ Recall that your payoffs is only known to you, while rest of the players think o
         <td style="color:blue"> <b>  blue </b> </td>
         <td style="color:green"> <b> green </b> </td>
         <td style="color:purple"> <b> purple </b> </td>
-        <td style="color:red"> <b> red </b> </td>
+        <td style="color:orange"> <b> red </b> </td>
     </tr>
 
     <tr>   
@@ -174,9 +175,9 @@ Recall that your payoffs is only known to you, while rest of the players think o
 
 </table>
 
-Recall that according to the rules two of the four alternatives are eliminated at random.
-Please see below the reamining alternatives and make your choice.
-The alternative that receives the most number of votes would be implemented.
+Two of the four alternatives have been randomly eliminated.
+Please vote to implement one of the remaining alternatives below.
+The alternative that receives the most votes will be implemented.
 
 
 <br>
@@ -184,7 +185,7 @@ The alternative that receives the most number of votes would be implemented.
 
 <table class="table">
     <tr>
-        <td> The reamining alternatives are </td>
+        <td> The remaining alternatives are </td>
         {% if numeric_options.0 == 1 %}
         <td  style="color:blue"> <b> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 2 %}
@@ -205,7 +206,7 @@ The alternative that receives the most number of votes would be implemented.
         {% endif %}
      </tr>
      <tr> 
-        <td> Select the alternative you would like to vote for </td>
+        <td> Select the alternative you would like to vote to implement </td>
         <td> <input id="Option1" type="radio" name="vote" value="{{numeric_options.0}}" required> 
         </td>
         <td> <input id="Option2" type="radio" name="vote" value="{{numeric_options.1}}" required> 

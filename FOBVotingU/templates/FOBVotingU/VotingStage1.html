@@ -10,16 +10,27 @@
 
 <table class="table">
     <tr> 
-        <td> You are player </td>
-        <td> <b> {{ my_number }} </b> </td>
+        <td style="width: 70%;"> You are Player </td>
+        {% if my_number == 1 or my_number == 4 %}
+        <td style="width: 30%;" > <b> {{ my_number }} </b> </td>
+        {% else %}
+        {% if my_profile == 1 or my_profile == 3%}
+        <td style="width: 30%;"> <b> {{ my_number }}a </b> </td>
+        {% elif my_profile == 2 or my_profile == 4%}
+        <td style="width: 30%;"> <b> {{ my_number }}b </b> </td>
+        {% endif %}
+        {% endif %}
     </tr>
 </table>
 
-Payoffs of the players look as follows.
-Your payoffs are highlighted in bold.
+
+The payments for all players are shown below.
+Your own payments are highlighted in bold.
+<br>
 {% if my_number == 3 or my_number == 2 %}
-Recall that your payoffs is only known to you, while rest of the players think of payoffs being uncertain.
+Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
 {% endif %}
+
 
 <br>
 <br>
@@ -112,21 +123,23 @@ Recall that your payoffs is only known to you, while rest of the players think o
 
 </table>
 
-Recall that one of the alternatives are elimintated prior to voting.
-Please see below the reamining alternatives and make your choice.
+
+One of the four alternatives has been randomly eliminated.
+Please vote to eliminate one of the remaining alternatives below.
+The alternative that receives the most votes will be eliminated.
 
 <br>
 <br>
 
 <table class="table">
     <tr>
-        <td> The reamining alternatives are </td>
+        <td> The remaining alternatives are </td>
         <td> <b> {{options.0}} </b> </td>
         <td> <b> {{options.1}} </b> </td>
         <td> <b> {{options.2}} </b> </td>
      </tr>
      <tr> 
-        <td> Select the alternative you would like to eliminate </td>
+        <td> Select the alternative you would like to vote to eliminate </td>
         <td> <input id="Option1" type="radio" name="vote_stage1" value="{{numeric_options.0}}" required> 
             <label for="Option1"> {{options.0}} </label>
         </td>
