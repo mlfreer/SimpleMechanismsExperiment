@@ -26,7 +26,7 @@ SESSION_CONFIGS = [
          'name': 'FOBVotingU',
          'display_name': 'First Order Beliefs Voting with Unequal Strategy Space',
          'num_demo_participants': 4,
-         'app_sequence': ['FOBVotingU'],
+         'app_sequence': ['FOBVotingU','BeautyContest','RiskElicitation','FinalResults'],
      },
      {
          'name': 'SOBVotingU',

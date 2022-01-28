@@ -8,22 +8,39 @@
 {% block content %}
 <font size="4">
 
-Payoffs of the players look as follows.
-Your payoffs are highlighted in bold.
+<table class="table">
+    <tr> 
+        <td style="width: 70%;"> You are Player </td>
+        {% if my_number == 1 or my_number == 4 %}
+        <td style="width: 30%;" > <b> {{ my_number }} </b> </td>
+        {% else %}
+        {% if my_profile == 1 or my_profile == 3%}
+        <td style="width: 30%;"> <b> {{ my_number }}a </b> </td>
+        {% elif my_profile == 2 or my_profile == 4%}
+        <td style="width: 30%;"> <b> {{ my_number }}b </b> </td>
+        {% endif %}
+        {% endif %}
+    </tr>
+</table>
+
+The payments for all players are shown below.
+Your own payments are highlighted in bold.
+<br>
 {% if my_number == 3 or my_number == 2 %}
-Recall that your payoffs is only known to you, while rest of the players think of payoffs being uncertain.
+Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
 {% endif %}
 
 <br>
 <br>
+
 <table class="table">
     </tr>
     <tr>
         <td> Player </td>
-        <td> W </td>
-        <td> X </td>
-        <td> Y </td>
-        <td> Z </td>
+        <td style="color:blue"> <b> blue </b> </td>
+        <td style="color:green"> <b> green </b> </td>
+        <td style="color:purple"> <b> purple </b> </td>
+        <td style="color:#c24e00"> <b> orange </b> </td>
     </tr>
 
     <tr>   
@@ -41,62 +58,116 @@ Recall that your payoffs is only known to you, while rest of the players think o
     </tr>
 
 
-    {% if my_number == 2 %}
+    
+    {% if my_profile == 1 %}
     <tr>
-        <td> <b> 2 </b> </td>
-        {% for temp in my_preferences %}
+        <td> <b> 2a (50% chance) </b> </td>
+        {% for temp in preference_profiles.1 %}
         <td> <b> {{ temp }} </b> </td>
         {% endfor %}
     </tr>
-    {% else %}
-    <tr>
-        <td> 2a (50% chance) </td>
-        {% for temp in preference_profiles.1 %}
-        <td> {{ temp }} </td>
-        {% endfor %}
-    </tr>
+
     <tr>
         <td> 2b (50% chance) </td>
         {% for temp in preference_profiles.2 %}
         <td> {{ temp }} </td>
         {% endfor %}
     </tr>
-    {% endif %}
 
-
-    {% if my_number == 3 %}
+        {% elif my_profile == 2%}
     <tr>
-        <td> <b> 3 </b> </td>
-        {% for temp in my_preferences %}
-        <td> <b> {{ temp }} </b> </td>
-        {% endfor %}
-    </tr>
-    {% else %}
-    <tr>
-        <td> 3a (50% chance) </td>
-        {% for temp in preference_profiles.3 %}
+        <td> 2a (50% chance) </td>
+        {% for temp in preference_profiles.1 %}
         <td> {{ temp }} </td>
         {% endfor %}
     </tr>
+
+    <tr>
+        <td> <b> 2b (50% chance) </b> </td>
+        {% for temp in preference_profiles.2 %}
+        <td> <b> {{ temp }} </b> </td>
+        {% endfor %}
+        
+    </tr>
+        {% else %}
+    <tr>
+        <td> 2a (50% chance) </td>
+        {% for temp in preference_profiles.1 %}
+        <td> {{ temp }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <td> 2b (50% chance) </td>
+        {% for temp in preference_profiles.2 %}
+        <td> {{ temp }} </td>
+        {% endfor %}
+        
+    </tr>    
+    {% endif %}
+
+
+    {% if my_profile == 3 %}
+    <tr>
+        <td> <b> 3a (50% chance) </b> </td>
+        {% for temp in preference_profiles.3 %}
+        <td> <b> {{ temp }} </b> </td>
+        {% endfor %}
+    </tr>
+
     <tr>
         <td> 3b (50% chance) </td>
         {% for temp in preference_profiles.4 %}
         <td> {{ temp }} </td>
         {% endfor %}
     </tr>
+
+        {% elif my_profile == 4%}
+    <tr>
+        <td> 3a (50% chance) </td>
+        {% for temp in preference_profiles.3 %}
+        <td> {{ temp }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <td> <b> 3b (50% chance) </b> </td>
+        {% for temp in preference_profiles.4 %}
+        <td> <b> {{ temp }} </b> </td>
+        {% endfor %}
+        
+    </tr>
+        {% else %}
+    <tr>
+        <td> 3a (50% chance) </td>
+        {% for temp in preference_profiles.3 %}
+        <td> {{ temp }} </td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <td> 3b (50% chance) </td>
+        {% for temp in preference_profiles.4 %}
+        <td> {{ temp }} </td>
+        {% endfor %}
+        
+    </tr>    
     {% endif %}
+
+
+    
 
     {% if my_number == 4 %}
     <tr>
         <td> <b> 4 </b> </td>
-        {% for temp in my_preferences %}
+        {% for temp in preference_profiles.5 %}
         <td> <b> {{ temp }} </b> </td>
         {% endfor %}
     </tr>
     {% else %}
     <tr>
         <td> 4 </td>
-        {% for temp in preference_profiles.3 %}
+        {% for temp in preference_profiles.5 %}
         <td> {{ temp }} </td>
         {% endfor %}
     </tr>
@@ -108,8 +179,16 @@ Recall that your payoffs is only known to you, while rest of the players think o
 
 <table class="table">
 <tr>
-    <td> The collective choice is </td> 
-    <td> <b> {{ collective_choice }} </b> </td>
+    <td> The implemented alternative is </td>
+        {% if numeric_collective_choice == 0 %}
+        <td  style="color:blue"> <b> {{collective_choice}} </b> </td>
+        {% elif numeric_collective_choice == 1 %}
+        <td  style="color:green"> <b> {{collective_choice}} </b> </td>
+        {% elif numeric_collective_choice == 2 %}
+        <td  style="color:purple;uple"> <b> {{collective_choice}} </b> </td>
+        {% elif numeric_collective_choice == 3 %}
+        <td  style="color:#c24e00"> <b> {{collective_choice}} </b> </td>
+        {% endif %}
 </tr>
 
 <tr>

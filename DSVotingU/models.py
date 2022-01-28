@@ -82,8 +82,6 @@ class Constants(BaseConstants):
 
 
     alternatives = ['blue', 'green', 'purple', 'orange']
-    # showup fee
-    show_up_fee = 5
 
     
 

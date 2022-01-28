@@ -23,20 +23,63 @@ class Constants(BaseConstants):
     name_in_url = 'FOBVotingU'
     players_per_group = 4
 
-    num_rounds = 5 # number of periods to be set to 10
+    num_rounds = 2 # number of periods to be set to 10
 
     type_probability = .5 # probability of type of 2 and 3 being (a)
 
-    # defining the vector of preferences:
-    preferences = [[0 for x in range(0,6)] for x in range(0,6)]
-    preferences[0] = [20, 15, 5, 0] # player 1
-    preferences[1] = [5, 20, 15, 0] # player 2a
-    preferences[2] = [15, 20, 5, 0] # player 2b
-    preferences[3] = [5, 20, 15, 0] # player 3a
-    preferences[4] = [15, 20, 5, 0] # player 3b
-    preferences[5] = [5, 15, 20, 0] # player 4
+    preferences = [[[0 for x in range(0,6)] for x in range(0,6)] for x in range(0,6)]
+    # randomized order of the preferences:
+    # type (1):
+    preferences[0][0] = [20, 15, 5, 0] # player 1
+    preferences[0][1] = [5, 20, 15, 0] # player 2a
+    preferences[0][2] = [15, 20, 5, 0] # player 2b
+    preferences[0][3] = [5, 20, 15, 0] # player 3a
+    preferences[0][4] = [15, 20, 5, 0] # player 3b
+    preferences[0][5] = [5, 15, 20, 0] # player 4
 
-    alternatives = ['W', 'X', 'Y', 'Z']
+    # type (2):
+    preferences[1][0] = [0, 20, 15, 5] # player 1
+    preferences[1][1] = [0, 5, 20, 15] # player 2a
+    preferences[1][2] = [0, 15, 20, 5] # player 2b
+    preferences[1][3] = [0, 5, 20, 15] # player 3a
+    preferences[1][4] = [0, 15, 20, 5] # player 3b
+    preferences[1][5] = [0, 5, 15, 20] # player 4
+
+    # type (3):
+    preferences[2][0] = [5, 0, 20, 15] # player 1
+    preferences[2][1] = [15, 0, 5, 20] # player 2a
+    preferences[2][2] = [5, 0, 15, 20] # player 2b
+    preferences[2][3] = [15, 0, 5, 20] # player 3a
+    preferences[2][4] = [5, 0, 15, 20] # player 3b
+    preferences[2][5] = [20, 0, 5, 15] # player 4
+
+    # type (4):
+    preferences[3][0] = [15, 5, 0, 20] # player 1
+    preferences[3][1] = [20, 15, 0, 5] # player 2a
+    preferences[3][2] = [20, 5, 0, 15] # player 2b
+    preferences[3][3] = [20, 15, 0, 5] # player 3a
+    preferences[3][4] = [20, 5, 0, 15] # player 3b
+    preferences[3][5] = [15, 20, 0, 5] # player 4
+
+    # type (4):
+    preferences[4][0] = [15, 20, 5, 0] # player 1
+    preferences[4][1] = [20, 5, 15, 0] # player 2a
+    preferences[4][2] = [20, 15, 5, 0] # player 2b
+    preferences[4][3] = [20, 5, 15, 0] # player 3a
+    preferences[4][4] = [20, 15, 5, 0] # player 3b
+    preferences[4][5] = [15, 5, 20, 0] # player 4
+
+    # type (5):
+    preferences[5][0] = [15, 0, 20, 5] # player 1
+    preferences[5][1] = [20, 0, 5, 15] # player 2a
+    preferences[5][2] = [20, 0, 15, 5] # player 2b
+    preferences[5][3] = [20, 0, 5, 15] # player 3a
+    preferences[5][4] = [20, 0, 15, 5] # player 3b
+    preferences[5][5] = [15, 0, 5, 20] # player 4
+
+
+
+    alternatives = ['blue', 'green', 'purple', 'orange']
 
 
 class Subsession(BaseSubsession):
@@ -46,6 +89,11 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
+    # variable to determine the group level preference ordering
+    Ordering = models.IntegerField(min=0,max=5)
+
+    def set_ordering(self):
+        self.Ordering = random.randint(0,5)
 
     # defining the alternatives present at the first stage voting:
     stage1_Option1 = models.IntegerField(min=1,max=4,initial=0)
@@ -172,7 +220,7 @@ class Player(BasePlayer):
 
     def set_payoff(self):
         choice = self.group.Collective_Choice
-        self.earnings = Constants.preferences[self.MyPreferences][choice]
+        self.earnings = Constants.preferences[self.group.Ordering][self.MyPreferences][choice]
         if self.subsession.round_number == self.subsession.paying_round:
             p = self.in_round(Constants.num_rounds)
             p.payoff = self.earnings
