@@ -32,7 +32,7 @@ SESSION_CONFIGS = [
          'name': 'SOBVotingU',
          'display_name': 'Second Order Beliefs Voting with Unequal Strategy Space',
          'num_demo_participants': 4,
-         'app_sequence': ['SOBVotingU'],
+         'app_sequence': ['SOBVotingU','BeautyContest','RiskElicitation','FinalResults'],
      },
      {
          'name': 'BeautyContest',

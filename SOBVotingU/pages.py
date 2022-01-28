@@ -18,6 +18,7 @@ class SetupWaitPage(WaitPage):
             p.set_MyPrefernces()
         groups = self.subsession.get_groups()
         for g in groups:
+            g.set_ordering()
             g.set_menu()
 
 class VotingStage0(Page):
@@ -26,14 +27,15 @@ class VotingStage0(Page):
     def vars_for_template(self):
         profile = self.player.MyPreferences
         temp = [0 for x in range(0,4)]
-        temp[0] = Constants.preferences[profile][0]
-        temp[1] = Constants.preferences[profile][1]
-        temp[2] = Constants.preferences[profile][2]
-        temp[3] = Constants.preferences[profile][3]
+        temp[0] = Constants.preferences[self.player.group.Ordering][profile][0]
+        temp[1] = Constants.preferences[self.player.group.Ordering][profile][1]
+        temp[2] = Constants.preferences[self.player.group.Ordering][profile][2]
+        temp[3] = Constants.preferences[self.player.group.Ordering][profile][3]
 
         return dict(
-            preference_profiles = Constants.preferences,
+            preference_profiles = Constants.preferences[self.player.group.Ordering],
             my_number = self.player.id_in_group,
+            my_profile = profile,
             my_preferences = temp,
             numeric_options = [self.group.stage0_Option1, self.group.stage0_Option2, self.group.stage0_Option3, self.group.stage0_Option4],
             options = [Constants.alternatives[self.group.stage0_Option1-1],Constants.alternatives[self.group.stage0_Option2-1],Constants.alternatives[self.group.stage0_Option3-1],Constants.alternatives[self.group.stage0_Option4-1]]
@@ -100,6 +102,9 @@ class ResultsWaitPage(WaitPage):
 
 class Results(Page):
     def vars_for_template(self):
+        if self.player.subsession.round_number == Constants.num_rounds:
+            self.player.participant.vars['treatment_earnings'] = self.player.earnings        
+
         temp1 = [0 for x in range(0,4)]
         profile = self.player.MyPreferences
         temp1[0] = Constants.preferences[profile][0]
@@ -138,5 +143,5 @@ page_sequence = [Welcome,
                 VotingStage2,
                 ResultsWaitPage,
                 Results,
-                FinalResults
+#                FinalResults
                 ]
