@@ -52,14 +52,15 @@ class VotingStage1(Page):
     def vars_for_template(self):
         profile = self.player.MyPreferences
         temp = [0 for x in range(0,4)]
-        temp[0] = Constants.preferences[profile][0]
-        temp[1] = Constants.preferences[profile][1]
-        temp[2] = Constants.preferences[profile][2]
-        temp[3] = Constants.preferences[profile][3]
+        temp[0] = Constants.preferences[self.player.group.Ordering][profile][0]
+        temp[1] = Constants.preferences[self.player.group.Ordering][profile][1]
+        temp[2] = Constants.preferences[self.player.group.Ordering][profile][2]
+        temp[3] = Constants.preferences[self.player.group.Ordering][profile][3]
 
         return dict(
-            preference_profiles = Constants.preferences,
+            preference_profiles = Constants.preferences[self.player.group.Ordering],
             my_number = self.player.id_in_group,
+            my_profile = profile,
             eliminated = Constants.alternatives[self.group.stage1_Eliminated-1],
             my_preferences = temp,
             numeric_options = [self.group.stage1_Option1, self.group.stage1_Option2, self.group.stage1_Option3],
@@ -78,16 +79,16 @@ class VotingStage2(Page):
     def vars_for_template(self):
         profile = self.player.MyPreferences
         temp = [0 for x in range(0,4)]
-        temp[0] = Constants.preferences[profile][0]
-        temp[1] = Constants.preferences[profile][1]
-        temp[2] = Constants.preferences[profile][2]
-        temp[3] = Constants.preferences[profile][3]
+        temp[0] = Constants.preferences[self.player.group.Ordering][profile][0]
+        temp[1] = Constants.preferences[self.player.group.Ordering][profile][1]
+        temp[2] = Constants.preferences[self.player.group.Ordering][profile][2]
+        temp[3] = Constants.preferences[self.player.group.Ordering][profile][3]
 
         return dict(
-            preference_profiles = Constants.preferences,
-            eliminated = Constants.alternatives[self.group.stage2_Eliminated-1],
+            preference_profiles = Constants.preferences[self.player.group.Ordering],
             my_number = self.player.id_in_group,
-            my_preferences = temp,
+            my_profile = profile,
+            eliminated = Constants.alternatives[self.group.stage2_Eliminated-1],
             numeric_options = [self.group.stage2_Option1, self.group.stage2_Option2],
             options = [Constants.alternatives[self.group.stage2_Option1-1],Constants.alternatives[self.group.stage2_Option2-1]]
             )
@@ -105,20 +106,22 @@ class Results(Page):
         if self.player.subsession.round_number == Constants.num_rounds:
             self.player.participant.vars['treatment_earnings'] = self.player.earnings        
 
-        temp1 = [0 for x in range(0,4)]
         profile = self.player.MyPreferences
-        temp1[0] = Constants.preferences[profile][0]
-        temp1[1] = Constants.preferences[profile][1]
-        temp1[2] = Constants.preferences[profile][2]
-        temp1[3] = Constants.preferences[profile][3]
+        temp = [0 for x in range(0,4)]
+        temp[0] = Constants.preferences[self.player.group.Ordering][profile][0]
+        temp[1] = Constants.preferences[self.player.group.Ordering][profile][1]
+        temp[2] = Constants.preferences[self.player.group.Ordering][profile][2]
+        temp[3] = Constants.preferences[self.player.group.Ordering][profile][3]
 
 
         return dict(
-            my_preferences = temp1,
-            preference_profiles = Constants.preferences,
+            my_preferences = temp,
+            preference_profiles = Constants.preferences[self.player.group.Ordering],
             my_number = self.player.id_in_group,
+            my_profile = profile,
             collective_choice = Constants.alternatives[self.player.group.Collective_Choice],
-            earnings = temp1[self.player.group.Collective_Choice]
+            earnings = temp[self.player.group.Collective_Choice],
+            numeric_collective_choice = self.player.group.Collective_Choice,
             )
 
 class FinalResults(Page):

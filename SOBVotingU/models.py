@@ -23,7 +23,7 @@ class Constants(BaseConstants):
     name_in_url = 'SOBVotingU'
     players_per_group = 4
 
-    num_rounds = 5 # number of periods to be set to 10
+    num_rounds = 2 # number of periods to be set to 10
 
     type_probability = .5 # probability of type of 2 and 3 being (a)
 
@@ -289,7 +289,7 @@ class Player(BasePlayer):
 
     def set_payoff(self):
         choice = self.group.Collective_Choice
-        self.earnings = Constants.preferences[self.MyPreferences][choice]
+        self.earnings = Constants.preferences[self.group.Ordering][self.MyPreferences][choice]
         if self.subsession.round_number == self.subsession.paying_round:
             p = self.in_round(Constants.num_rounds)
             p.payoff = self.earnings
