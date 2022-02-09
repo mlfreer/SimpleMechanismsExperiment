@@ -22,10 +22,11 @@
 </table>
 
 The payments for all players are shown below.
+<br>
 Your own payments are highlighted in bold.
 <br>
 {% if my_number == 3 or my_number == 2 %}
-Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
+Other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
 {% endif %}
 
 <br>
@@ -175,7 +176,9 @@ Recall that the other players do not know whether you are type {{my_number}}a or
 
 
 One of the four alternatives has been randomly eliminated.
+<br>
 Please vote to eliminate one of the remaining alternatives below.
+<br>
 The alternative that receives the most votes will be eliminated.
 
 <br>
@@ -183,7 +186,7 @@ The alternative that receives the most votes will be eliminated.
 
 <table class="table">
     <tr>
-        <td> The alternative eliminated in the previous voting stage is </td>
+        <td> The alternative eliminated in the previous stage is </td>
         {% if eliminated == 'blue' %}
         <td  style="color:blue"> <b> {{eliminated}} </b> </td>
         {% elif eliminated == 'green' %}

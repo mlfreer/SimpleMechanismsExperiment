@@ -4,7 +4,7 @@ from .models import Constants
 
 
 class Welcome(Page):
-    template_name ='DSVotingU/Welcome.html'
+    template_name ='FOBVotingU/Welcome.html'
     def is_displayed(self):
         return self.player.subsession.round_number == 1
     def before_next_page(self):

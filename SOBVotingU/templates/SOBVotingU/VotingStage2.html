@@ -9,6 +9,17 @@
 <font size="4">
 
 
+The payments for all players are shown below.
+<br>
+Your own payments are highlighted in bold.
+<br>
+{% if my_number == 3 or my_number == 2 %}
+Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
+{% endif %}
+
+<br>
+<br>
+
 <table class="table">
     </tr>
     <tr>
@@ -153,6 +164,7 @@
 
 
 Please vote to implement one of the alternatives below.
+<br>
 The alternative that receives the most votes will be implemented.
 
 <br>
@@ -173,7 +185,7 @@ The alternative that receives the most votes will be implemented.
         <td> </td>
      </tr>
     <tr>
-        <td> The reamining alternatives are </td>
+        <td> The remaining alternatives are </td>
         {% if numeric_options.0 == 1 %}
         <td  style="color:blue"> <b> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 2 %}
