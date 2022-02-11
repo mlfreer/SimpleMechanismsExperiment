@@ -103,7 +103,7 @@ class Group(BaseGroup):
 
     def set_menu(self):
         numeric_alternatives = [1, 2, 3, 4]
-        random.shuffle(numeric_alternatives)
+
         self.stage0_Option1 = numeric_alternatives[0]
         self.stage0_Option2 = numeric_alternatives[1]
         self.stage0_Option3 = numeric_alternatives[2]

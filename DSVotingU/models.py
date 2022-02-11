@@ -114,10 +114,17 @@ class Group(BaseGroup):
     def eliminate_alternatives(self):
         numeric_alternatives = [1, 2, 3, 4]
         random.shuffle(numeric_alternatives)
-        self.Option1 = numeric_alternatives[0]
-        self.Option2 = numeric_alternatives[1]
-        self.Eliminated1 = numeric_alternatives[2]
-        self.Eliminated2 = numeric_alternatives[3]
+        remaining = [numeric_alternatives[0], numeric_alternatives[1]]
+        remaining.sort()
+
+        eliminated = [numeric_alternatives[2], numeric_alternatives[3]]
+        eliminated.sort()
+
+
+        self.Option1 = remaining[0]
+        self.Option2 = remaining[1]
+        self.Eliminated1 = eliminated[0]
+        self.Eliminated2 = eliminated[1]
 
 
     Collective_Choice = models.IntegerField(min=0,max=3,initial=-1)

@@ -105,10 +105,17 @@ class Group(BaseGroup):
     def random_elimination(self):
         numeric_alternatives = [1, 2, 3, 4]
         random.shuffle(numeric_alternatives)
-        self.stage1_Option1 = numeric_alternatives[0]
-        self.stage1_Option2 = numeric_alternatives[1]
-        self.stage1_Option3 = numeric_alternatives[2]
-        self.stage1_Eliminated = numeric_alternatives[3]
+
+        remaining = [numeric_alternatives[0], numeric_alternatives[1], numeric_alternatives[2]]
+        remaining.sort()
+
+        eliminated = [numeric_alternatives[3]]
+        eliminated.sort()
+
+        self.stage1_Option1 = remaining[0]
+        self.stage1_Option2 = remaining[1]
+        self.stage1_Option3 = remaining[2]
+        self.stage1_Eliminated = eliminated[0]
 
     #defining the alternatives present at the second stage voting:
     stage2_Eliminated = models.IntegerField(min=1,max=4,initial=0)

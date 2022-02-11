@@ -175,11 +175,11 @@ Other players do not know whether you are type {{my_number}}a or type {{my_numbe
 
 </table>
 
-Two of the four alternatives have been randomly eliminated.
+Two of the four alternatives have been <b> randomly eliminated</b>.
 <br>
-Please vote to implement one of the remaining alternatives below.
+Please vote to <b>implement</b> one of the <b>remaining</b> alternatives below.
 <br>
-The alternative that receives the most votes will be implemented.
+The alternative that receives the most votes will be <b>implemented</b>.
 
 
 <br>
@@ -187,7 +187,7 @@ The alternative that receives the most votes will be implemented.
 
 <table class="table">
     <tr>
-        <td> Alternatives eliminated at the previous stage are </td>
+        <td> Alternatives <b>eliminated</b> at the previous stage are </td>
         {% if eliminated.0 == 'blue' %}
         <td  style="color:blue"> <b> {{eliminated.0}} </b> </td>
         {% elif eliminated.0 == 'green' %}
@@ -208,7 +208,7 @@ The alternative that receives the most votes will be implemented.
         {% endif %}
      </tr>
     <tr>
-        <td> The remaining alternatives are </td>
+        <td> The <b>remaining</b> alternatives are </td>
         {% if numeric_options.0 == 1 %}
         <td  style="color:blue"> <b> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 2 %}
@@ -229,7 +229,7 @@ The alternative that receives the most votes will be implemented.
         {% endif %}
      </tr>
      <tr> 
-        <td> Select the alternative you would like to vote to implement </td>
+        <td> Select the alternative you would like to vote to <b>implement</b> </td>
         <td> <input id="Option1" type="radio" name="vote" value="{{numeric_options.0}}" required> 
         </td>
         <td> <input id="Option2" type="radio" name="vote" value="{{numeric_options.1}}" required> 

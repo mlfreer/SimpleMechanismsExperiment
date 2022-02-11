@@ -175,18 +175,18 @@ Other players do not know whether you are type {{my_number}}a or type {{my_numbe
 </table>
 
 
-One of the four alternatives has been randomly eliminated.
+One of the four alternatives has been <b>randomly eliminated</b>.
 <br>
-Please vote to eliminate one of the remaining alternatives below.
+Please vote to <b>eliminate</b> one of the <b>remaining</b> alternatives below.
 <br>
-The alternative that receives the most votes will be eliminated.
+The alternative that receives the most votes will be <b>eliminated</b>.
 
 <br>
 <br>
 
 <table class="table">
     <tr>
-        <td> The alternative eliminated in the previous stage is </td>
+        <td> The alternative <b>eliminated</b> in the previous stage is </td>
         {% if eliminated == 'blue' %}
         <td  style="color:blue"> <b> {{eliminated}} </b> </td>
         {% elif eliminated == 'green' %}
@@ -199,7 +199,7 @@ The alternative that receives the most votes will be eliminated.
         <td> </td>
         <td> </td>
      </tr>
-        <td> The remaining alternatives are </td>
+        <td> The <b>remaining</b> alternatives are </td>
         {% if numeric_options.0 == 1 %}
         <td  style="color:blue"> <b> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 2 %}
@@ -229,7 +229,7 @@ The alternative that receives the most votes will be eliminated.
         {% endif %}
      </tr>
      <tr> 
-        <td> Select the alternative you would like to vote to eliminate </td>
+        <td> Select the alternative you would like to vote to <b>eliminate</b> </td>
         <td> <input id="Option1" type="radio" name="vote_stage1" value="{{numeric_options.0}}" required> 
         </td>
         <td> <input id="Option2" type="radio" name="vote_stage1" value="{{numeric_options.1}}" required> 
