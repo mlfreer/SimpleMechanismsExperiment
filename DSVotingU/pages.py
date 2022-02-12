@@ -12,6 +12,56 @@ class Welcome(Page):
 		self.player.subsession.set_paying_round()
 
 
+#-----------------------------------------------------------------------------------
+# quiz pages:
+class Question1(Page):
+	def is_displayed(self):
+		return self.player.subsession.round_number == 1
+
+	form_model  = 'player'
+	form_fields = ['question']
+
+	def vars_for_template(self):
+		return dict(
+			my_number = 1,
+			my_profile = 0,
+			my_preferences = Constants.preferences[3][0],
+			preference_profiles = Constants.preferences[3]
+			)
+
+	form_show_errors = False
+
+	def error_message(player, values):
+		if values['question']!=Constants.a11:
+			return 'error'
+
+
+class Question2(Page):
+	def is_displayed(self):
+		return self.player.subsession.round_number == 1
+
+	form_model  = 'player'
+	form_fields = ['question']
+
+	def vars_for_template(self):
+		return dict(
+			my_number = 1,
+			my_profile = 0,
+			my_preferences = Constants.preferences[3][0],
+			preference_profiles = Constants.preferences[3]
+			)
+
+	form_show_errors = False
+
+	def error_message(player, values):
+		if values['question']!=Constants.a12:
+			return 'error'
+#-----------------------------------------------------------------------------------
+
+
+
+
+#-----------------------------------------------------------------------------------
 # voting treatment page:
 class SetupWaitPage(WaitPage):
 	wait_for_all_groups = True
@@ -74,10 +124,12 @@ class Results(Page):
 			)
 
 page_sequence = [Welcome, 
+				# QUIZ:
+				Question1,
+				Question2,
 				# voting treatment
 				SetupWaitPage,
 				Voting,
 				ResultsWaitPage,
 				Results,
-				
 				]

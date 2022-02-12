@@ -25,6 +25,19 @@ class Constants(BaseConstants):
 
     num_rounds = 2 # number of periods to be set to 10
 
+    # quiz answers separated in blocks:
+    a11 = 3
+    a12 = 5
+    
+    a13 = 4
+    a14 = 4
+    a15 = 4
+    a21 = 4
+    a22 = 4
+    a23 = 4
+    a24 = 4
+    a25 = 4
+
     type_probability = .5 # probability of type of 2 and 3 being (a)
 
     # defining the vector of preferences:
@@ -157,6 +170,13 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+
+    # variables for the quiz
+    question = models.IntegerField()
+
+#    def q1_error_message(self, value):
+#        if value != Constants.a11:
+#            return 'Your answer is incorrect.  Please try again.'
 
     # variable to store the type:
     MyPreferences = models.IntegerField(min=0, max=5, initial=0)
