@@ -47,12 +47,27 @@ SESSION_CONFIGS = [
          'app_sequence': ['RiskElicitation'],
      },
      {
-         'name': 'quiz',
-         'display_name': 'Quiz',
+         'name': 'quiz_DS',
+         'display_name': 'Quiz_DS',
          'treatment': 1,
          'num_demo_participants': 1,
          'app_sequence': ['quiz'],
      },
+     {
+         'name': 'quiz_FOB',
+         'display_name': 'Quiz_FOB',
+         'treatment': 2,
+         'num_demo_participants': 1,
+         'app_sequence': ['quiz'],
+     },
+     {
+         'name': 'quiz_SOB',
+         'display_name': 'Quiz_SOB',
+         'treatment': 3,
+         'num_demo_participants': 1,
+         'app_sequence': ['quiz'],
+     },
+
 ]
 
 
