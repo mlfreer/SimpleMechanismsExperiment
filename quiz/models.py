@@ -30,10 +30,10 @@ class Constants(BaseConstants):
     a15 = 4
 
     a21 = 2
-    a22 = 4
-    a23 = 4
-    a24 = 4
-    a25 = 4
+    a22 = 5
+    a23 = 2
+    a24 = 5
+    a25 = 5
 
         # defining the vector of preferences:
     preferences = [[0 for x in range(0,6)] for x in range(0,6)]
