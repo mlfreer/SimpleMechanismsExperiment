@@ -170,14 +170,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-
-    # variables for the quiz
-    question = models.IntegerField()
-
-#    def q1_error_message(self, value):
-#        if value != Constants.a11:
-#            return 'Your answer is incorrect.  Please try again.'
-
+    
     # variable to store the type:
     MyPreferences = models.IntegerField(min=0, max=5, initial=0)
 

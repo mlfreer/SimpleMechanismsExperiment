@@ -46,6 +46,13 @@ SESSION_CONFIGS = [
          'num_demo_participants': 1,
          'app_sequence': ['RiskElicitation'],
      },
+     {
+         'name': 'quiz',
+         'display_name': 'Quiz',
+         'treatment': 1,
+         'num_demo_participants': 1,
+         'app_sequence': ['quiz'],
+     },
 ]
 
 
