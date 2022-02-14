@@ -2,7 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-    Voting
+    Voting (Round {{round_number}} of {{num_rounds}})
 {% endblock %}
 
 {% block content %}
@@ -24,11 +24,8 @@
 </table>
 
 The payments for all players are shown below.
-Your own payments are highlighted in bold.
 <br>
-{% if my_number == 3 or my_number == 2 %}
-Other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
-{% endif %}
+Your own payments are highlighted in bold.
 
 <br>
 <br>
@@ -179,7 +176,7 @@ Two of the four alternatives have been <b> randomly eliminated</b>.
 <br>
 Please vote to <b>implement</b> one of the <b>remaining</b> alternatives below.
 <br>
-The alternative that receives the most votes will be <b>implemented</b>.
+The alternative that receives the greatest number of votes will be <b>implemented</b>.
 
 
 <br>
@@ -187,7 +184,7 @@ The alternative that receives the most votes will be <b>implemented</b>.
 
 <table class="table">
     <tr>
-        <td> Alternatives <b>eliminated</b> at the previous stage are </td>
+        <td> The <b>randomly eliminated</b> alternatives at the previous stage are </td>
         {% if eliminated.0 == 'blue' %}
         <td  style="color:blue"> <b> {{eliminated.0}} </b> </td>
         {% elif eliminated.0 == 'green' %}

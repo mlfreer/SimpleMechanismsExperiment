@@ -24,10 +24,6 @@
 The payments for all players are shown below.
 <br>
 Your own payments are highlighted in bold.
-<br>
-{% if my_number == 3 or my_number == 2 %}
-Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
-{% endif %}
 
 <br>
 <br>
@@ -176,14 +172,14 @@ Recall that the other players do not know whether you are type {{my_number}}a or
 
 Please vote to <b>implement</b> one of the <b>remaining</b> alternatives below.
 <br>
-The alternative that receives the most votes will be <b>implemented</b>.
+The alternative that receives the greatest number of votes will be <b>implemented</b>.
 
 <br>
 <br>
 
 <table class="table">
     <tr>
-        <td> The alternative <b>eliminated</b> in the previous voting stage is </td>
+        <td> The <b>eliminated</b> alternative in the previous voting stage is </td>
         {% if eliminated == 'blue' %}
         <td  style="color:blue"> <b> {{eliminated}} </b> </td>
         {% elif eliminated == 'green' %}

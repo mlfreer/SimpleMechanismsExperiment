@@ -2,20 +2,31 @@
 {% load otree static %}
 
 {% block title %}
-    Voting
+    Voting (Round {{round_number}} of {{num_rounds}})
 {% endblock %}
 
 {% block content %}
 <font size="4">
 
+<table class="table">
+    <tr> 
+        <td style="width: 70%;"> You are Player </td>
+        {% if my_number == 1 or my_number == 4 %}
+        <td style="width: 30%;" > <b> {{ my_number }} </b> </td>
+        {% else %}
+        {% if my_profile == 1 or my_profile == 3%}
+        <td style="width: 30%;"> <b> {{ my_number }}a </b> </td>
+        {% elif my_profile == 2 or my_profile == 4%}
+        <td style="width: 30%;"> <b> {{ my_number }}b </b> </td>
+        {% endif %}
+        {% endif %}
+    </tr>
+</table>
+
 
 The payments for all players are shown below.
 <br>
 Your own payments are highlighted in bold.
-<br>
-{% if my_number == 3 or my_number == 2 %}
-Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
-{% endif %}
 
 <br>
 <br>
@@ -165,14 +176,14 @@ Recall that the other players do not know whether you are type {{my_number}}a or
 
 Please vote to <b>implement</b> one of the alternatives below.
 <br>
-The alternative that receives the most votes will be <b>implemented</b>.
+The alternative that receives the greatest number of votes will be <b>implemented</b>.
 
 <br>
 <br>
 
 <table class="table">
     <tr>
-        <td> The alternative <b>eliminated</b> in the previous voting stage is </td>
+        <td> The <b>eliminated</b> alternative in the previous voting stage is </td>
         {% if eliminated == "blue" %}
         <td  style="color:blue"> <b> {{eliminated}} </b> </td>
         {% elif eliminated == "green" %}

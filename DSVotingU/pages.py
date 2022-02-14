@@ -38,7 +38,9 @@ class Voting(Page):
 			my_profile = profile,
 			numeric_options = [self.group.Option1, self.group.Option2],
 			options = [Constants.alternatives[self.group.Option1-1],Constants.alternatives[self.group.Option2-1]],
-			eliminated = [Constants.alternatives[self.group.Eliminated1-1],Constants.alternatives[self.group.Eliminated2-1]]
+			eliminated = [Constants.alternatives[self.group.Eliminated1-1],Constants.alternatives[self.group.Eliminated2-1]],
+			round_number = self.player.subsession.round_number,
+			num_rounds = Constants.num_rounds
 			)
 
 class ResultsWaitPage(WaitPage):
@@ -67,7 +69,9 @@ class Results(Page):
 			my_profile = profile,
 			collective_choice = Constants.alternatives[self.player.group.Collective_Choice],
 			numeric_collective_choice = self.player.group.Collective_Choice,
-			earnings = temp1[self.player.group.Collective_Choice]
+			earnings = temp1[self.player.group.Collective_Choice],
+			round_number = self.player.subsession.round_number,
+			num_rounds = Constants.num_rounds
 			)
 
 page_sequence = [

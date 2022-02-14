@@ -23,7 +23,7 @@ class Constants(BaseConstants):
     name_in_url = 'FOBVotingU'
     players_per_group = 4
 
-    num_rounds = 2 # number of periods to be set to 10
+    num_rounds = 10 # number of periods to be set to 10
 
     type_probability = .5 # probability of type of 2 and 3 being (a)
 
@@ -85,7 +85,9 @@ class Constants(BaseConstants):
 class Subsession(BaseSubsession):
     paying_round = models.IntegerField(min=1,max=Constants.num_rounds,initial=0)
     def set_paying_round(self):
-        self.paying_round = random.randint(1,Constants.num_rounds)
+        p_round = random.randint(1,Constants.num_rounds)
+        s = self.in_round(Constants.num_rounds)
+        s.paying_round = p_round
 
 
 class Group(BaseGroup):

@@ -33,7 +33,9 @@ class VotingStage0(Page):
             my_profile = profile,
             my_preferences = temp,
             numeric_options = [self.group.stage0_Option1, self.group.stage0_Option2, self.group.stage0_Option3, self.group.stage0_Option4],
-            options = [Constants.alternatives[self.group.stage0_Option1-1],Constants.alternatives[self.group.stage0_Option2-1],Constants.alternatives[self.group.stage0_Option3-1],Constants.alternatives[self.group.stage0_Option4-1]]
+            options = [Constants.alternatives[self.group.stage0_Option1-1],Constants.alternatives[self.group.stage0_Option2-1],Constants.alternatives[self.group.stage0_Option3-1],Constants.alternatives[self.group.stage0_Option4-1]],
+            round_number = self.player.subsession.round_number,
+            num_rounds = Constants.num_rounds
             )
 
 class VotingStage0WaitPage(WaitPage):
@@ -59,7 +61,9 @@ class VotingStage1(Page):
             eliminated = Constants.alternatives[self.group.stage1_Eliminated-1],
             my_preferences = temp,
             numeric_options = [self.group.stage1_Option1, self.group.stage1_Option2, self.group.stage1_Option3],
-            options = [Constants.alternatives[self.group.stage1_Option1-1],Constants.alternatives[self.group.stage1_Option2-1],Constants.alternatives[self.group.stage1_Option3-1]]
+            options = [Constants.alternatives[self.group.stage1_Option1-1],Constants.alternatives[self.group.stage1_Option2-1],Constants.alternatives[self.group.stage1_Option3-1]],
+            round_number = self.player.subsession.round_number,
+            num_rounds = Constants.num_rounds
             )
 
 
@@ -85,7 +89,9 @@ class VotingStage2(Page):
             my_profile = profile,
             eliminated = Constants.alternatives[self.group.stage2_Eliminated-1],
             numeric_options = [self.group.stage2_Option1, self.group.stage2_Option2],
-            options = [Constants.alternatives[self.group.stage2_Option1-1],Constants.alternatives[self.group.stage2_Option2-1]]
+            options = [Constants.alternatives[self.group.stage2_Option1-1],Constants.alternatives[self.group.stage2_Option2-1]],
+            round_number = self.player.subsession.round_number,
+            num_rounds = Constants.num_rounds
             )
 
 
@@ -118,6 +124,8 @@ class Results(Page):
             collective_choice = Constants.alternatives[self.player.group.Collective_Choice],
             earnings = temp[self.player.group.Collective_Choice],
             numeric_collective_choice = self.player.group.Collective_Choice,
+            round_number = self.player.subsession.round_number,
+            num_rounds = Constants.num_rounds
             )
 
 class FinalResults(Page):

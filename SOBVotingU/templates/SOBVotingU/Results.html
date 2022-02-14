@@ -2,7 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-    Voting Results
+    Outcome (Round {{round_number}} of {{num_rounds}})
 {% endblock %}
 
 {% block content %}
@@ -26,10 +26,6 @@
 The payments for all players are shown below.
 <br>
 Your own payments are highlighted in bold.
-<br>
-{% if my_number == 3 or my_number == 2 %}
-Recall that the other players do not know whether you are type {{my_number}}a or type {{my_number}}b.
-{% endif %}
 
 <br>
 <br>
@@ -181,7 +177,7 @@ Recall that the other players do not know whether you are type {{my_number}}a or
 
 <table class="table">
 <tr>
-    <td> The implemented alternative is </td>
+    <td> The <b>implemented</b> alternative is </td>
         {% if numeric_collective_choice == 0 %}
         <td  style="color:blue"> <b> {{collective_choice}} </b> </td>
         {% elif numeric_collective_choice == 1 %}
@@ -194,7 +190,7 @@ Recall that the other players do not know whether you are type {{my_number}}a or
 </tr>
 
 <tr>
-    <td> Your payoff is </td>
+    <td> Your <b>payment</b> is </td>
     <td> {{ earnings }}</td>
 </tr>
 <tr>
