@@ -3,16 +3,11 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
-class Welcome(Page):
-    template_name ='FOBVotingU/Welcome.html'
-    def is_displayed(self):
-        return self.player.subsession.round_number == 1
-    def before_next_page(self):
-        self.player.subsession.set_paying_round()
-
 class SetupWaitPage(WaitPage):
     wait_for_all_groups = True
     def after_all_players_arrive(self):
+        if self.subsession.round_number == 1:
+            self.subsession.set_paying_round()
         players = self.subsession.get_players()
         for p in players: 
             p.set_MyPrefernces()
@@ -84,6 +79,7 @@ class ResultsWaitPage(WaitPage):
 class Results(Page):
     def vars_for_template(self):
         if self.player.subsession.round_number == Constants.num_rounds:
+            p = self.player.in_round(self.player.subsession.paying_round)
             self.player.participant.vars['treatment_earnings'] = self.player.earnings        
 
         temp1 = [0 for x in range(0,4)]
@@ -104,27 +100,12 @@ class Results(Page):
             earnings = temp1[self.player.group.Collective_Choice]
             )
 
-class FinalResults(Page):
-    def is_displayed(self):
-        return self.player.subsession.round_number == Constants.num_rounds
 
-    def vars_for_template(self):
-        if self.player.subsession.round_number == Constants.num_rounds:
-            self.player.participant.vars['treatment_earnings'] = self.player.earnings
-
-        return dict(
-            earning = self.player.payoff - c(5),
-            show_up_fee = c(5),
-            payoff = self.player.payoff
-            )
-
-
-page_sequence = [Welcome, 
+page_sequence = [
                 SetupWaitPage,
                 VotingStage1,
                 VotingStage1WaitPage,
                 VotingStage2,
                 ResultsWaitPage,
                 Results,
-#                FinalResults
                 ]

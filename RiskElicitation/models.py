@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     risk_min = 5
     risk_safe = 15
     risk_prob_winning = .5
-    risk_prob_paying = 1
+    risk_prob_paying = .1
 
 
 class Subsession(BaseSubsession):

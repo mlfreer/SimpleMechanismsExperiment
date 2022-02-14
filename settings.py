@@ -20,19 +20,22 @@ SESSION_CONFIGS = [
          'name': 'DSVotingU',
          'display_name': 'Dominant Strategy Voting with Unequal Strategy Space',
          'num_demo_participants': 4,
-         'app_sequence': ['DSVotingU','BeautyContest','RiskElicitation','FinalResults'],
+         'treatment': 1,
+         'app_sequence': ['quiz','DSVotingU','BeautyContest','RiskElicitation','FinalResults'],
      },
      {
          'name': 'FOBVotingU',
          'display_name': 'First Order Beliefs Voting with Unequal Strategy Space',
          'num_demo_participants': 4,
-         'app_sequence': ['FOBVotingU','BeautyContest','RiskElicitation','FinalResults'],
+         'treatment': 1,
+         'app_sequence': ['quiz','FOBVotingU','BeautyContest','RiskElicitation','FinalResults'],
      },
      {
          'name': 'SOBVotingU',
          'display_name': 'Second Order Beliefs Voting with Unequal Strategy Space',
          'num_demo_participants': 4,
-         'app_sequence': ['SOBVotingU','BeautyContest','RiskElicitation','FinalResults'],
+         'treatment': 1,
+         'app_sequence': ['quiz','SOBVotingU','BeautyContest','RiskElicitation','FinalResults'],
      },
      {
          'name': 'BeautyContest',
@@ -47,27 +50,12 @@ SESSION_CONFIGS = [
          'app_sequence': ['RiskElicitation'],
      },
      {
-         'name': 'quiz_DS',
-         'display_name': 'Quiz_DS',
+         'name': 'quiz',
+         'display_name': 'Quiz',
          'treatment': 1,
          'num_demo_participants': 1,
          'app_sequence': ['quiz'],
      },
-     {
-         'name': 'quiz_FOB',
-         'display_name': 'Quiz_FOB',
-         'treatment': 2,
-         'num_demo_participants': 1,
-         'app_sequence': ['quiz'],
-     },
-     {
-         'name': 'quiz_SOB',
-         'display_name': 'Quiz_SOB',
-         'treatment': 3,
-         'num_demo_participants': 1,
-         'app_sequence': ['quiz'],
-     },
-
 ]
 
 

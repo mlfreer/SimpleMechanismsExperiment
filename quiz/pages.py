@@ -4,6 +4,12 @@ from .models import Constants
 
 
 #-----------------------------------------------------------------------------------
+# welcome page:
+class Welcome(Page):
+    pass
+#-----------------------------------------------------------------------------------
+
+#-----------------------------------------------------------------------------------
 # BLOCK 1 [first table]:
 class Question1(Page):
     form_model  = 'player'
@@ -447,6 +453,7 @@ class Question52(Page):
 
 
 page_sequence = [
+            Welcome,
             # block 1:
             Question1,
             Question2,
@@ -460,15 +467,15 @@ page_sequence = [
             Question9,
             Question10,
             # block 3:
-            Question31,
-            Question32,
-            Question33,
-            Question34,
+#            Question31,
+#            Question32,
+#            Question33,
+#            Question34,
             # block 4:
-            Question41,
-            Question42,
-            Question43,
+#            Question41,
+#            Question42,
+#            Question43,
             # block 5:
-            Question51,
-            Question52
+#            Question51,
+#            Question52
             ]
