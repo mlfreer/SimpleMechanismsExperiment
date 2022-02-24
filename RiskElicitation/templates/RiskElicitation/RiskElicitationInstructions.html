@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+<font size="4">
 
 Consider the two options that are shown below.
 
@@ -15,7 +16,7 @@ Consider the two options that are shown below.
 
 <br><br>
 
-<b> Option B </b>: 50% chance of £{{high_payoff}} and 50% chance of £{{low_payoff}}
+<b> Option B </b>: 50% chance of £{{low_payoff}} and 50% chance of £{{high_payoff}}
 
 <br><br>
 
@@ -31,10 +32,14 @@ If you are paid based on your response and you chose Option A, then you would re
 
 <br><br>
 
-If you are paid based on your response and you chose Option B, then the computer would flip a fair coin to determine your payment.  You would be equally likely to receive either £{{high_payoff}} or £{{low_payoff}}.
+If you are paid based on your response and you chose Option B, then the computer would flip a fair coin to determine your payment.  You would be equally likely to receive either £{{low_payoff}} or £{{high_payoff}}.
+
+</font>
 
 <br><br>
 
+<div id="NextButton" style="float: right;">
 {% next_button %}
+</div>
 
 {% endblock %}
