@@ -27,7 +27,12 @@ class Constants(BaseConstants):
 
     type_probability = .5 # probability of type of 2 and 3 being (a)
 
-    preferences = [[[0 for x in range(0,6)] for x in range(0,6)] for x in range(0,6)]
+    # number of profiles:
+    num_profiles = 12
+
+    # defining the vector of preferences:
+    preferences = [[[0 for x in range(0,6)] for x in range(0,6)] for x in range(0,12)]
+
     # randomized order of the preferences:
     # type (1):
     preferences[0][0] = [20, 15, 5, 0] # player 1
@@ -61,7 +66,7 @@ class Constants(BaseConstants):
     preferences[3][4] = [20, 5, 0, 15] # player 3b
     preferences[3][5] = [15, 20, 0, 5] # player 4
 
-    # type (4):
+    # type (5):
     preferences[4][0] = [15, 20, 5, 0] # player 1
     preferences[4][1] = [20, 5, 15, 0] # player 2a
     preferences[4][2] = [20, 15, 5, 0] # player 2b
@@ -69,7 +74,7 @@ class Constants(BaseConstants):
     preferences[4][4] = [20, 15, 5, 0] # player 3b
     preferences[4][5] = [15, 5, 20, 0] # player 4
 
-    # type (5):
+    # type (6):
     preferences[5][0] = [15, 0, 20, 5] # player 1
     preferences[5][1] = [20, 0, 5, 15] # player 2a
     preferences[5][2] = [20, 0, 15, 5] # player 2b
@@ -77,7 +82,53 @@ class Constants(BaseConstants):
     preferences[5][4] = [20, 0, 15, 5] # player 3b
     preferences[5][5] = [15, 0, 5, 20] # player 4
 
+    # type (7):
+    preferences[6][0] = [20, 5, 15, 0] # player 1
+    preferences[6][1] = [5, 15, 20, 0] # player 2a
+    preferences[6][2] = [15, 5, 20, 0] # player 2b
+    preferences[6][3] = [5, 15, 20, 0] # player 3a
+    preferences[6][4] = [15, 5, 20, 0] # player 3b
+    preferences[6][5] = [5, 20, 15, 0] # player 4
 
+    # type (8):
+    preferences[7][0] = [20, 0, 5, 15] # player 1
+    preferences[7][1] = [5, 0, 15, 20] # player 2a
+    preferences[7][2] = [15, 0, 5, 20] # player 2b
+    preferences[7][3] = [5, 0, 15, 20] # player 3a
+    preferences[7][4] = [15, 0, 5, 20] # player 3b
+    preferences[7][5] = [5, 0, 20, 15] # player 4
+
+    # type (9):
+    preferences[8][0] = [0, 15, 20, 5] # player 1
+    preferences[8][1] = [0, 20, 5, 15] # player 2a
+    preferences[8][2] = [0, 20, 15, 5] # player 2b
+    preferences[8][3] = [0, 20, 5, 15] # player 3a
+    preferences[8][4] = [0, 20, 15, 5] # player 3b
+    preferences[8][5] = [0, 15, 5, 20] # player 4
+
+    # type (10):
+    preferences[9][0] = [0, 5, 15, 20] # player 1
+    preferences[9][1] = [0, 15, 20, 5] # player 2a
+    preferences[9][2] = [0, 5, 20, 15] # player 2b
+    preferences[9][3] = [0, 15, 20, 5] # player 3a
+    preferences[9][4] = [0, 5, 20, 15] # player 3b
+    preferences[9][5] = [0, 20, 15, 5] # player 4
+
+    # type (11):
+    preferences[10][0] = [5, 20, 0, 15] # player 1
+    preferences[10][1] = [15, 5, 0, 20] # player 2a
+    preferences[10][2] = [5, 15, 0, 20] # player 2b
+    preferences[10][3] = [15, 5, 0, 20] # player 3a
+    preferences[10][4] = [5, 15, 0, 20] # player 3b
+    preferences[10][5] = [20, 5, 0, 15] # player 4
+
+    # type (12):
+    preferences[11][0] = [5, 15, 20, 0] # player 1
+    preferences[11][1] = [15, 20, 5, 0] # player 2a
+    preferences[11][2] = [5, 20, 15, 0] # player 2b
+    preferences[11][3] = [15, 20, 5, 0] # player 3a
+    preferences[11][4] = [5, 20, 15, 0] # player 3b
+    preferences[11][5] = [20, 15, 5, 0] # player 4
 
     alternatives = ['blue', 'green', 'purple', 'orange']
 
@@ -95,7 +146,7 @@ class Group(BaseGroup):
     Ordering = models.IntegerField(min=0,max=5)
 
     def set_ordering(self):
-        self.Ordering = random.randint(0,5)
+        self.Ordering = random.randint(0,Constants.num_profiles-1)
 
     # defining the alternatives present at the first stage voting:
     stage1_Option1 = models.IntegerField(min=1,max=4,initial=0)
