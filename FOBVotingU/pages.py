@@ -9,6 +9,7 @@ class SetupWaitPage(WaitPage):
         if self.subsession.round_number == 1:
             self.subsession.set_paying_round()
         players = self.subsession.get_players()
+        self.subsession.set_order()
         for p in players: 
             p.set_MyPrefernces()
         groups = self.subsession.get_groups()

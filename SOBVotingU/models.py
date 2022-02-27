@@ -136,6 +136,12 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
+    # variable to determine the group level preference ordering
+    Ordering = models.IntegerField(min=0,max=5)
+
+    def set_order(self):
+        self.Ordering = random.randint(0,Constants.num_profiles-1)
+        
     paying_round = models.IntegerField(min=1,max=Constants.num_rounds,initial=0)
     def set_paying_round(self):
         p_round = random.randint(1,Constants.num_rounds)
@@ -147,7 +153,7 @@ class Group(BaseGroup):
     Ordering = models.IntegerField(min=0,max=5)
 
     def set_ordering(self):
-        self.Ordering = random.randint(0,Constants.num_profiles-1)
+        self.Ordering = self.subsession.Ordering
 
     # defining the menu in the first stage:
     stage0_Option1 = models.IntegerField(min=1,max=4,initial=0)
