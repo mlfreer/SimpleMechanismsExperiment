@@ -396,7 +396,7 @@ class Player(BasePlayer):
 		self.earnings = Constants.preferences[self.group.Ordering][self.MyPreferences][choice]
 		if self.subsession.round_number == self.subsession.paying_round:
 			p = self.in_round(Constants.num_rounds)
-			p.payoff = self.earnings
+			self.payoff = p.earnings
 
 
  

@@ -85,7 +85,7 @@ class Results(Page):
     def vars_for_template(self):
         if self.player.subsession.round_number == Constants.num_rounds:
             p = self.player.in_round(self.player.subsession.paying_round)
-            self.player.participant.vars['treatment_earnings'] = self.player.earnings        
+            self.player.participant.vars['treatment_earnings'] = p.earnings        
 
         temp1 = [0 for x in range(0,4)]
         profile = self.player.MyPreferences
