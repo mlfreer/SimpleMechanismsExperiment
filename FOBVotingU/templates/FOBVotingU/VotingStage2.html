@@ -34,9 +34,10 @@ The alternative that receives the greatest number of votes will be <b>implemente
         <td> </td>
      </tr>    
      </tr>
-        <td> Select the alternative you would like to vote to <b>eliminate</b> </td> </td>
-        {% if numeric_options.0 == 1 %}
+        <td> Select the alternative you would like to vote to <b>implement</b> </td> </td>
+
         <td>  <input id="Option1" type="radio" name="vote_stage2" value="{{numeric_options.0}}" required> 
+        {% if numeric_options.0 == 1 %}
         <b style="color:blue"> {{options.0}} </b> </td>
         {% elif numeric_options.0 == 2 %}
         <b  style="color:green"> {{options.0}} </b> </td>
