@@ -1,0 +1,77 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Voting (Round {{round_number}} of {{num_rounds}})
+{% endblock %}
+
+{% block content %}
+
+{% include "global/FiveV_Preferences.html" %}
+
+<font size="4">
+Two of the four alternatives have been <b> randomly eliminated</b>.
+<br>
+Please vote to <b>implement</b> one of the <b>remaining</b> alternatives below.
+<br>
+The alternative that receives the greatest number of votes will be <b>implemented</b>.
+
+
+<br>
+<br>
+
+<table class="table">
+    <tr>
+        <td> The <b>randomly eliminated</b> alternatives in the previous stage are </td>
+        {% if eliminated.0 == 'blue' %}
+        <td  style="color:blue"> <b> {{eliminated.0}} </b> </td>
+        {% elif eliminated.0 == 'green' %}
+        <td  style="color:green"> <b> {{eliminated.0}} </b> </td>
+        {% elif eliminated.0 == 'purple' %}
+        <td  style="color:purple"> <b> {{eliminated.0}} </b> </td>
+        {% elif eliminated.0 == 'orange' %}
+        <td  style="color:#c24e00"> <b> {{eliminated.0}} </b> </td>
+        {% endif %}
+        {% if eliminated.1 == 'blue' %}
+        <td  style="color:blue"> <b> {{eliminated.1}} </b> </td>
+        {% elif eliminated.1 == 'green' %}
+        <td  style="color:green"> <b> {{eliminated.1}} </b> </td>
+        {% elif eliminated.1 == 'purple' %}
+        <td  style="color:purple"> <b> {{eliminated.1}} </b> </td>
+        {% elif eliminated.1 == 'orange' %}
+        <td  style="color:#c24e00"> <b> {{eliminated.1}} </b> </td>
+        {% endif %}
+    </tr>
+    <tr>
+        <td> Select the alternative you would like to vote to <b>implement</b> </td>
+        <td> <input id="Option1" type="radio" name="vote" value="{{numeric_options.0}}" required> 
+        {% if numeric_options.0 == 1 %}
+        <b  style="color:blue"> {{options.0}} </b> </td>
+        {% elif numeric_options.0 == 2 %}
+        <b  style="color:green"> {{options.0}} </b> </td>
+        {% elif numeric_options.0 == 3 %}
+        <b style="color:purple"> {{options.0}} </b> </td>
+        {% elif numeric_options.0 == 4 %}
+        <b  style="color:#c24e00"> {{options.0}} </b> </td>
+        {% endif %}
+        <td> <input id="Option2" type="radio" name="vote" value="{{numeric_options.1}}" required> 
+        {% if numeric_options.1 == 1 %}
+        <b style="color:blue"> {{options.1}} </b> </td>
+        {% elif numeric_options.1 == 2 %}
+        <b  style="color:green"> {{options.1}} </b> </td>
+        {% elif numeric_options.1 == 3 %}
+        <b  style="color:purple"> {{options.1}} </b> </td>
+        {% elif numeric_options.1 == 4 %}
+        <b  style="color:#c24e00"> {{options.1}} </b> </td>
+        {% endif %}
+     </tr>
+</table>
+
+<div id="NextButton" style="float: right;">
+{% next_button %}
+</div>
+
+
+</font>
+    
+{% endblock %}

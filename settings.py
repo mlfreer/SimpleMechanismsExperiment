@@ -56,6 +56,13 @@ SESSION_CONFIGS = [
          'num_demo_participants': 1,
          'app_sequence': ['quiz'],
      },
+     {
+         'name': 'FiveV_DS_U',
+         'display_name': 'Dominant Strategy Five Viters with Unequal Strategy Space',
+         'num_demo_participants': 5,
+         'treatment': 1,
+         'app_sequence': ['FiveV_DS_U'],
+     },
 ]
 
 
