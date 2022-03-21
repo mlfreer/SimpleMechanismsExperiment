@@ -6,15 +6,17 @@
 {% endblock %}
 
 {% block content %}
+
 {% include "global/FiveV_Preferences.html" %}
+
+
 
 <font size="4">
 
-<br>
 
 <table class="table">
-    <tr>
-        <td> The <b>implemented</b> alternative is </td>
+<tr>
+    <td> The <b>implemented</b> alternative is </td>
         {% if numeric_collective_choice == 0 %}
         <td  style="color:blue"> <b> {{collective_choice}} </b> </td>
         {% elif numeric_collective_choice == 1 %}
@@ -24,21 +26,18 @@
         {% elif numeric_collective_choice == 3 %}
         <td  style="color:#c24e00"> <b> {{collective_choice}} </b> </td>
         {% endif %}
-    </tr>
+</tr>
 
 <tr>
     <td> Your <b>payment</b> is </td>
     <td> {{ earnings }}</td>
 </tr>
+<tr>
+    <td>  </td>
+    <td> <b> {% next_button %} </b> </td>
+</tr>
 </table>
-
 </font>
-
-
-<div id="NextButton" style="float: right;">
-{% next_button %}
-</div>
-
 {% endblock %}
 
 

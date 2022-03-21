@@ -63,6 +63,20 @@ SESSION_CONFIGS = [
          'treatment': 1,
          'app_sequence': ['FiveV_DS_U'],
      },
+     {
+         'name': 'FiveV_FOB_U',
+         'display_name': 'FOB Five Viters with Unequal Strategy Space',
+         'num_demo_participants': 5,
+         'treatment': 1,
+         'app_sequence': ['FiveV_FOB_U'],
+     },
+     {
+         'name': 'FiveV_SOB_U',
+         'display_name': 'SOB Five Viters with Unequal Strategy Space',
+         'num_demo_participants': 5,
+         'treatment': 1,
+         'app_sequence': ['FiveV_SOB_U'],
+     },
 ]
 
 
