@@ -23,7 +23,7 @@ class Constants(BaseConstants):
 	name_in_url = 'FOBVotingU'
 	players_per_group = 4
 
-	num_rounds = 2 # number of periods to be set to 10
+	num_rounds = 10 # number of periods to be set to 10
 
 	type_probability = .5 # probability of type of 2 and 3 being (a)
 
