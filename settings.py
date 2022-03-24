@@ -56,27 +56,27 @@ SESSION_CONFIGS = [
          'num_demo_participants': 1,
          'app_sequence': ['quiz'],
      },
-     {
-         'name': 'FiveV_DS_U',
-         'display_name': 'Dominant Strategy Five Voters with Unequal Strategy Space',
-         'num_demo_participants': 5,
-         'treatment': 1,
-         'app_sequence': ['FiveV_DS_U'],
-     },
-     {
-         'name': 'FiveV_FOB_U',
-         'display_name': 'FOB Five Voters with Unequal Strategy Space',
-         'num_demo_participants': 5,
-         'treatment': 1,
-         'app_sequence': ['FiveV_FOB_U'],
-     },
-     {
-         'name': 'FiveV_SOB_U',
-         'display_name': 'SOB Five Voters with Unequal Strategy Space',
-         'num_demo_participants': 5,
-         'treatment': 1,
-         'app_sequence': ['FiveV_SOB_U'],
-     },
+#     {
+#         'name': 'FiveV_DS_U',
+#         'display_name': 'Dominant Strategy Five Voters with Unequal Strategy Space',
+#         'num_demo_participants': 5,
+#         'treatment': 1,
+#         'app_sequence': ['FiveV_DS_U'],
+#     },
+#     {
+#         'name': 'FiveV_FOB_U',
+#         'display_name': 'FOB Five Voters with Unequal Strategy Space',
+#         'num_demo_participants': 5,
+#         'treatment': 1,
+#         'app_sequence': ['FiveV_FOB_U'],
+#     },
+#     {
+#         'name': 'FiveV_SOB_U',
+#         'display_name': 'SOB Five Voters with Unequal Strategy Space',
+#         'num_demo_participants': 5,
+#         'treatment': 1,
+#         'app_sequence': ['FiveV_SOB_U'],
+#     },
 ]
 
 
