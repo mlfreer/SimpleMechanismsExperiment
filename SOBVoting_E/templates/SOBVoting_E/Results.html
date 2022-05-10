@@ -1,23 +1,13 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
 
-{% load staticfiles %}
-
 {% block title %}
-    Quiz: Question  {{player.question_number}}
+    Outcome (Round {{round_number}} of {{num_rounds}})
 {% endblock %}
 
 {% block content %}
-
-
-
-{% if form.errors %}
-    <ol class="p-3 mb-2 bg-danger text-white">
-    Your answer is incorrect. Please try again.
-    </ol>
-{% endif %}
-
 <font size="4">
+
 <table class="table">
     <tr> 
         <td style="width: 70%;"> You are Player </td>
@@ -34,8 +24,8 @@
 </table>
 
 The payments for all players are shown below.
+<br>
 Your own payments are highlighted in bold.
-
 
 <br>
 <br>
@@ -182,57 +172,33 @@ Your own payments are highlighted in bold.
 
 </table>
 
-<br>
 
-Assume the <b style="color:green"> green </b> alternative has been implemented.
-What does <b>Player 1 think your payment is</b>?
-<br>
-<br>
+
 
 <table class="table">
-    <tr>
-        <td> 
-            <input id="Option1" type="radio" name="question" value="1" required> <b> 0 </b>
-        </td>
-        <td> 
-            <input id="Option1" type="radio" name="question" value="2" required> <b> 5 </b>
-        </td>
-        <td> 
-            <input id="Option1" type="radio" name="question" value="3" required> <b> 15 </b>
-        </td>
-        <td> 
-            <input id="Option1" type="radio" name="question" value="4" required> <b> 20 </b>
-        </td>
-        <td> 
-            <input id="Option1" type="radio" name="question" value="5" required> <b> Equally likely 5 and 15 </b>
-        </td>
-        <td> 
-            <input id="Option1" type="radio" name="question" value="6" required> <b> Equally likely 5 and 20 </b>
-        </td>
-        <td> 
-            <input id="Option1" type="radio" name="question" value="7" required> <b> Equally likely 15 and 20 </b>
-        </td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td> {% next_button %} </td>
-    </tr>
+<tr>
+    <td> The <b>implemented</b> alternative is </td>
+        {% if numeric_collective_choice == 0 %}
+        <td  style="color:blue"> <b> {{collective_choice}} </b> </td>
+        {% elif numeric_collective_choice == 1 %}
+        <td  style="color:green"> <b> {{collective_choice}} </b> </td>
+        {% elif numeric_collective_choice == 2 %}
+        <td style="color:#c24e00"> <b> {{collective_choice}} </b> </td>
+        {% elif numeric_collective_choice == 3 %}
+        <td  style="color:purple;"  > <b> {{collective_choice}} </b> </td>
+        {% endif %}
+</tr>
+
+<tr>
+    <td> Your <b>payment</b> is </td>
+    <td> {{ earnings }}</td>
+</tr>
+<tr>
+    <td>  </td>
+    <td> <b> {% next_button %} </b> </td>
+</tr>
 </table>
-
-
-
-<style>
-    .otree-form-errors {
-  display: none;
-}
-    .errorlist {
-        display:none;
-    }
-</style>
-
+</font>
 {% endblock %}
+
+

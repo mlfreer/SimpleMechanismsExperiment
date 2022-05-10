@@ -25,24 +25,24 @@ class Constants(BaseConstants):
     # quiz answers separated in blocks:
 
     # block 1: preferences, exampe 1
-    a11 = 3
-    a12 = 2
-    a13 = 3
-    a14 = 3
-    a15 = 3
-    a21 = 7
+    a1 = 3
+    a2 = 2
+    a3 = 3
+    a4 = 2
+    a5 = 1
+    a6 = 7
 
         # defining the vector of preferences:
     preferences = [[0 for x in range(0,6)] for x in range(0,6)]
 
 
 # type (5):
-    preferences[0] = [20, 5, 15, 2] # player 1
-    preferences[1] = [15, 5, 20, 2] # player 2a
-    preferences[2] = [2, 15, 20, 5] # player 2b
-    preferences[3] = [15, 5, 20, 2] # player 3a
-    preferences[4] = [2, 15, 20, 5] # player 3b
-    preferences[5] = [2, 15, 5, 20] # player 4
+    preferences[0] = [20, 5, 15, 1] # player 1
+    preferences[1] = [15, 5, 20, 1] # player 2a
+    preferences[2] = [5, 15, 20, 1] # player 2b
+    preferences[3] = [15, 5, 20, 1] # player 3a
+    preferences[4] = [5, 15, 20, 1] # player 3b
+    preferences[5] = [1, 15, 5, 20] # player 4
 
     alternatives = ['blue', 'green', 'orange', 'purple',]
 

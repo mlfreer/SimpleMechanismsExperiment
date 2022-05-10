@@ -27,7 +27,7 @@ class Question1(Page):
     form_show_errors = False
 
     def error_message(player, values):
-        if values['question']!=Constants.a11:
+        if values['question']!=Constants.a1:
             return 'error'
 
     def before_next_page(self):
@@ -49,7 +49,7 @@ class Question2(Page):
     form_show_errors = False
 
     def error_message(player, values):
-        if values['question']!=Constants.a12:
+        if values['question']!=Constants.a2:
             return 'error'
 
     def before_next_page(self):
@@ -74,7 +74,7 @@ class Question3(Page):
         self.player.question_number = self.player.question_number+1
 
     def error_message(player, values):
-        if values['question']!=Constants.a13:
+        if values['question']!=Constants.a3:
             return 'error'
 #-----------------------------------------------------------------------------------
 
@@ -98,7 +98,7 @@ class Question4(Page):
         self.player.question_number = self.player.question_number+1
 
     def error_message(player, values):
-        if values['question']!=Constants.a14:
+        if values['question']!=Constants.a4:
             return 'error'
 
 
@@ -120,7 +120,7 @@ class Question5(Page):
         self.player.question_number = self.player.question_number+1
 
     def error_message(player, values):
-        if values['question']!=Constants.a14:
+        if values['question']!=Constants.a5:
             return 'error'
 
 class Question6(Page):
@@ -141,7 +141,7 @@ class Question6(Page):
         self.player.question_number = self.player.question_number+1
 
     def error_message(player, values):
-        if values['question']!=Constants.a21:
+        if values['question']!=Constants.a6:
             return 'error'
 
 
