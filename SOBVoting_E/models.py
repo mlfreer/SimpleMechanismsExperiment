@@ -230,6 +230,7 @@ class Group(BaseGroup):
 			if x >= max_element:
 				count = count+1
 
+
 		if count > 1:
 			r = random.uniform(0,1)
 			if r<=.5:
