@@ -40,9 +40,9 @@ class Voting(Page):
             )
     def error_message(player, values):
         if (values['rank_1']<0) or (values['rank_2']<0) or (values['rank_2']<0):
-            return "Assign alternatives to all ranks."
+            return "Please assign an alternative to each rank."
         if (values['rank_1']==values['rank_2']) or (values['rank_1']==values['rank_3']) or (values['rank_2']==values['rank_3']):
-            return "Assign distinct alternatives to all ranks."
+            return "Please assign a distinct alternative to each rank."
 
 
 class VotingWaitPage(WaitPage):
@@ -78,4 +78,7 @@ class Results(Page):
             )
 
 
-page_sequence = [SetupWaitPage, Voting, VotingWaitPage, Results]
+page_sequence = [SetupWaitPage, 
+            Voting, 
+            VotingWaitPage, 
+            Results]

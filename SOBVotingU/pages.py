@@ -129,19 +129,6 @@ class Results(Page):
             num_rounds = Constants.num_rounds
             )
 
-class FinalResults(Page):
-    def is_displayed(self):
-        return self.player.subsession.round_number == Constants.num_rounds
-
-    def vars_for_template(self):
-
-        return dict(
-            earning = self.player.payoff - c(5),
-            show_up_fee = c(5),
-            payoff = self.player.payoff
-            )
-
-
 page_sequence = [ 
                 SetupWaitPage,
                 VotingStage0,

@@ -41,7 +41,6 @@ class Constants(BaseConstants):
 	preferences[0][3] = [15, 20, 5, 1] # player 3a
 	preferences[0][4] = [5, 20, 15, 1] # player 3b
 	preferences[0][5] = [1, 5, 15, 20] # player 4
-
 	
 	alternatives = ['blue', 'green', 'orange', 'purple']
 
@@ -244,6 +243,8 @@ class Group(BaseGroup):
 			self.Collective_Choice = stage2_Option2-1
 		else:
 			self.Collective_Choice = stage2_Option1-1
+		for p in players:
+			p.set_payoff()
 
 
 
@@ -275,12 +276,20 @@ class Player(BasePlayer):
 			else:
 				self.MyPreferences = 4
 
-	rank_1  = models.IntegerField(min=0,max=4)
-	rank_2  = models.IntegerField(min=0,max=4)
-	rank_3  = models.IntegerField(min=0,max=4)
+	rank_1  = models.IntegerField(min=-1,max=4)
+	rank_2  = models.IntegerField(min=-1,max=4)
+	rank_3  = models.IntegerField(min=-1,max=4)
 
 	stage1_vote = models.IntegerField(min=0,max=4)
 	stage2_vote = models.IntegerField(min=0,max=4)
+
+	earnings = models.IntegerField(min=0,max=20)
+	def set_payoff(self):
+		choice = self.group.Collective_Choice
+		self.earnings = Constants.preferences[self.group.Ordering][self.MyPreferences][choice]
+		if self.subsession.round_number == Constants.num_rounds:
+			p = self.in_round(self.subsession.paying_round)
+			self.payoff = p.earnings
 
 
 

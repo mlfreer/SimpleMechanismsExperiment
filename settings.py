@@ -61,7 +61,7 @@ SESSION_CONFIGS = [
          'display_name': 'Second Order Beliefs Voting with Equal Strategy Space',
          'num_demo_participants': 4,
          'treatment': 1,
-         'app_sequence': ['SOBVoting_E'],
+         'app_sequence': ['quiz','SOBVoting_E','BeautyContest','RiskElicitation','FinalResults'],
      },
 #     {
 #         'name': 'FiveV_DS_U',
