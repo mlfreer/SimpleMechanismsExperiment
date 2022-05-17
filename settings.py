@@ -57,11 +57,25 @@ SESSION_CONFIGS = [
          'app_sequence': ['quiz'],
      },
           {
-         'name': 'SOBVotingE',
+         'name': 'SOBVoting_E',
          'display_name': 'Second Order Beliefs Voting with Equal Strategy Space',
          'num_demo_participants': 4,
          'treatment': 1,
          'app_sequence': ['quiz','SOBVoting_E','BeautyContest','RiskElicitation','FinalResults'],
+     },
+     {
+         'name': 'FOBVoting_E',
+         'display_name': 'First Order Beliefs Voting with Equal Strategy Space',
+         'num_demo_participants': 4,
+         'treatment': 1,
+         'app_sequence': ['quiz','FOBVoting_E','BeautyContest','RiskElicitation','FinalResults'],
+     },
+     {
+         'name': 'DSVoting_E',
+         'display_name': 'Dominant Strategy Voting with Equal Strategy Space',
+         'num_demo_participants': 4,
+         'treatment': 1,
+         'app_sequence': ['quiz','DSVoting_E','BeautyContest','RiskElicitation','FinalResults'],
      },
 #     {
 #         'name': 'FiveV_DS_U',
