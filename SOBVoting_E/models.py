@@ -29,7 +29,7 @@ class Constants(BaseConstants):
 	type_probability = .5 # probability of type of 2 and 3 being (a)
 
 	# number of profiles:
-	num_profiles = 25
+	num_profiles = 24
 
 	# defining the vector of preferences:
 	preferences = [[[0 for x in range(0,6)] for x in range(0,6)] for x in range(0,24)]

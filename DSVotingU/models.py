@@ -29,7 +29,7 @@ class Constants(BaseConstants):
 
 
     # number of profiles:
-    num_profiles = 1
+    num_profiles = 24
 
     # defining the vector of preferences:
     preferences = [[[0 for x in range(0,6)] for x in range(0,6)] for x in range(0,24)]
