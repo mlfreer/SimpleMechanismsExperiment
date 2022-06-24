@@ -39,7 +39,7 @@ class Voting(Page):
             num_rounds = Constants.num_rounds
             )
     def error_message(player, values):
-        if (values['rank_1']<0) or (values['rank_2']<0) or (values['rank_2']<0):
+        if (values['rank_1']<0) or (values['rank_2']<0) or (values['rank_3']<0):
             return "Please assign an alternative to each rank."
         if (values['rank_1']==values['rank_2']) or (values['rank_1']==values['rank_3']) or (values['rank_2']==values['rank_3']):
             return "Please assign a distinct alternative to each rank."
